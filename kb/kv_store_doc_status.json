@@ -1,0 +1,290 @@
+{
+  "doc-4c16dea3c9ee6681708eba0e92091faa": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "OneStream Error Handling & Mapping Guide\n\nOneStream System Errors\n\n1. Incorrect Entity Selection",
+    "content_summary": "OneStream Error Handling & Mapping Guide\n\nOneStream System Errors\n\n1. Incorrect Entity Selection",
+    "content_length": 96,
+    "created_at": "2025-11-02T21:51:48.716189",
+    "updated_at": "2025-11-02T21:51:51.177462"
+  },
+  "doc-b5a7adde1af5c87d7fd797b6245c2a39": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Description",
+    "content_summary": "Description",
+    "content_length": 11,
+    "created_at": "2025-11-02T21:52:11.505508",
+    "updated_at": "2025-11-02T21:52:11.850799"
+  },
+  "doc-de22530deea07aed27df7f24440a6b85": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "This error contains a prevention of P&L MPC report presentation under Dashboards in OneStream. The error of report presentation reflects “No Access” in each cell that supposed to present the data. This issue occures since the related user is not based in the central entity but in a local entity and has chosen EPG_Legal under Entity selection bar that is located in top-left",
+    "content_summary": "This error contains a prevention of P&L MPC report presentation under Dashboards in OneStream. The e...",
+    "content_length": 375,
+    "created_at": "2025-11-02T21:52:28.950808",
+    "updated_at": "2025-11-02T21:52:29.336022"
+  },
+  "doc-6d67c1dc051ea34b153886bca7e68844": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": ". This issue occures since the related user is not based in the central entity but in a local entity and has chosen EPG_Legal under Entity selection bar that is located in top-left. At first this looks like a system issue or missing data, but in reality it usually means the wrong entity has been selected in the entity dropdown at the top left. Instead of showing the user’s local entity, the selection might be set to the global or central entity.",
+    "content_summary": ". This issue occures since the related user is not based in the central entity but in a local entity...",
+    "content_length": 449,
+    "created_at": "2025-11-02T21:52:47.273939",
+    "updated_at": "2025-11-02T21:52:47.633778"
+  },
+  "doc-d76373bee5d6b8b9e0554f966622cf82": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nThe root cause of this issue is that EPG_Legal selection presents every entity of Delivery Hero and only can get accessed by central users unless a seperate access has been granted. Since a local user does not match with this classification, will not be able to access the relevant data.",
+    "content_summary": "Root Cause\nThe root cause of this issue is that EPG_Legal selection presents every entity of Deliver...",
+    "content_length": 298,
+    "created_at": "2025-11-02T21:53:06.332725",
+    "updated_at": "2025-11-02T21:53:06.670544"
+  },
+  "doc-9ff29e8a6836503d6ce44b763aa795c9": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "To solve this issue, the user should choose their own entity that they have the access by clicking this “Entity” bar and select the related entity. After this tab has been refreshed and changes has been applied, the user should be able to see the data presentation on the related cells.\n\nHow to Solve\n\nLook at the Entity selector in the top-left of the dashboard.\n\nIf it says EPG_Legal (or another global entity), change it to your local entity.\n\nRefresh the dashboard after making the change.",
+    "content_summary": "To solve this issue, the user should choose their own entity that they have the access by clicking t...",
+    "content_length": 493,
+    "created_at": "2025-11-02T21:53:24.045001",
+    "updated_at": "2025-11-02T21:53:24.450070"
+  },
+  "doc-b89b929c0b0394b7e9a26ac909ae2f1f": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Look at the Entity selector in the top-left of the dashboard.\n\nIf it says EPG_Legal (or another global entity), change it to your local entity.\n\nRefresh the dashboard after making the change.\n\nIf you still see “No Access,” check with your local admin that your account is assigned to the correct entity.\n\nIf the setup is correct but the error remains, take a screenshot and raise a support ticket with your username and entity selection.\n\n2. Network Performance Issues\n\nOneStream System Errors",
+    "content_summary": "Look at the Entity selector in the top-left of the dashboard.\n\nIf it says EPG_Legal (or another glob...",
+    "content_length": 493,
+    "created_at": "2025-11-02T21:53:45.945848",
+    "updated_at": "2025-11-02T21:53:46.387269"
+  },
+  "doc-535f01724a527eb2a222ccf841fb81bf": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "If the setup is correct but the error remains, take a screenshot and raise a support ticket with your username and entity selection.\n\n2. Network Performance Issues\n\nOneStream System Errors\n\nDescription\nWhen importing or validating data, users may see a message like “The system cannot find the file specified,” or the import may freeze halfway. This typically happens when internet connectivity is weak, unstable, or interrupted.",
+    "content_summary": "If the setup is correct but the error remains, take a screenshot and raise a support ticket with you...",
+    "content_length": 429,
+    "created_at": "2025-11-02T21:54:25.825368",
+    "updated_at": "2025-11-02T21:54:26.161662"
+  },
+  "doc-8af938d88e1d92c810317b41dd75f14f": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nOneStream is a cloud-based application, so every data transfer relies on your internet connection. If you are on unstable Wi-Fi, connected to a slow VPN, or using a network with insufficient bandwidth, OneStream will lose its connection during file transfer. Even a small drop in connection can cause the system to fail to find or process your file.\n\nHow to Solve\n\nCheck that your internet connection is stable by opening other websites.",
+    "content_summary": "Root Cause\nOneStream is a cloud-based application, so every data transfer relies on your internet co...",
+    "content_length": 448,
+    "created_at": "2025-11-02T21:54:52.175135",
+    "updated_at": "2025-11-02T21:54:53.017874"
+  },
+  "doc-978048478f3c25ba13ac704f6f6775ca": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "How to Solve\n\nCheck that your internet connection is stable by opening other websites.\n\nIf using Wi-Fi, try moving closer to the router or switch to a wired connection.\n\nClose other programs that use heavy bandwidth such as video calls or streaming.\n\nRetry the import or validation.\n\nIf the error repeats, submit IT support ticket.\n\n3. Okta Authentication Error\n\nOneStream System Errors",
+    "content_summary": "How to Solve\n\nCheck that your internet connection is stable by opening other websites.\n\nIf using Wi-...",
+    "content_length": 386,
+    "created_at": "2025-11-02T21:55:12.979438",
+    "updated_at": "2025-11-02T21:55:13.956702"
+  },
+  "doc-468ca5ae82bc8488c43a1095a5da3d74": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Retry the import or validation.\n\nIf the error repeats, submit IT support ticket.\n\n3. Okta Authentication Error\n\nOneStream System Errors\n\nDescription\nWhen logging into OneStream, users may be redirected to Okta but instead of successful login they see an error saying “Access Denied.” This stops them from entering OneStream completely.",
+    "content_summary": "Retry the import or validation.\n\nIf the error repeats, submit IT support ticket.\n\n3. Okta Authentica...",
+    "content_length": 335,
+    "created_at": "2025-11-02T21:55:39.575184",
+    "updated_at": "2025-11-02T21:55:40.055846"
+  },
+  "doc-20dcb38e4310793f8ff7abda23745bd3": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Description\nWhen logging into OneStream, users may be redirected to Okta but instead of successful login they see an error saying “Access Denied.” This stops them from entering OneStream completely.\n\nRoot Cause\nThis error indicates a IT based error and usually has been received from Glovo entities. The root cause of this error is authentication errors in the system and only can be solved with local IT Desk. If you are receiving this error, we suggest you to submit a ticket to IT support.",
+    "content_summary": "Description\nWhen logging into OneStream, users may be redirected to Okta but instead of successful l...",
+    "content_length": 492,
+    "created_at": "2025-11-02T21:56:05.169990",
+    "updated_at": "2025-11-02T21:56:05.691307"
+  },
+  "doc-d65f315ad08478c90c34db6e2ef629ae": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "How to Solve\n\nTake a screenshot of the full error page including the URL\n\nContact your IT desk and include the screenshot, your username, and the time of login.\n\nIT will check your Okta profile and reset credentials or update group assignments if necessary.\n\nOnce IT confirms, try logging in again.\n\nMissing Mapping Error-Mapping Error",
+    "content_summary": "How to Solve\n\nTake a screenshot of the full error page including the URL\n\nContact your IT desk and i...",
+    "content_length": 335,
+    "created_at": "2025-11-02T21:56:29.346536",
+    "updated_at": "2025-11-02T21:56:30.371194"
+  },
+  "doc-5b7a803e592df460426992a1ccbab8b6": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "IT will check your Okta profile and reset credentials or update group assignments if necessary.\n\nOnce IT confirms, try logging in again.\n\nMissing Mapping Error-Mapping Error\n\nDescription\nDuring validation, OneStream may stop and show “Target value missing.” This means that the system does not know how to map a value from the source file to a valid OneStream member. Users may think their file is wrong, but often it is because a new account or dimension value hasn’t been mapped yet.",
+    "content_summary": "IT will check your Okta profile and reset credentials or update group assignments if necessary.\n\nOnc...",
+    "content_length": 485,
+    "created_at": "2025-11-02T21:56:51.169929",
+    "updated_at": "2025-11-02T21:56:52.124572"
+  },
+  "doc-7c686046d60abc94ecd48dc9fcb9279e": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nMapping rules (called Transformation Rules) must cover every possible source value. If a new account was added in SAP or Dynamics but not in OneStream, validation fails. Even if the value exists, differences in formatting (leading zeros, spaces, or letter case) can cause a mismatch. Another possibility is that the mapping exists only in a regional table, but the workflow is pointing to a common table.\n\nHow to Solve",
+    "content_summary": "Root Cause\nMapping rules (called Transformation Rules) must cover every possible source value. If a ...",
+    "content_length": 429,
+    "created_at": "2025-11-02T21:57:14.347482",
+    "updated_at": "2025-11-02T21:57:15.262225"
+  },
+  "doc-cd1397725188cf9637d6442d0c5e89f0": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "How to Solve\n\nLook at the validation error and note the exact source value missing.\n\nGo to Application → Transformation Rules and search for it.\n\nIf the value is not found, raise a mapping request with details: value, description, and intended target.\n\nIf it exists but looks different, adjust the file or request a mapping fix.\n\nIf it exists but still fails, check whether your workflow is using the right Rule Profile (regional vs. common).",
+    "content_summary": "How to Solve\n\nLook at the validation error and note the exact source value missing.\n\nGo to Applicati...",
+    "content_length": 442,
+    "created_at": "2025-11-02T21:57:40.886993",
+    "updated_at": "2025-11-02T21:57:41.560297"
+  },
+  "doc-9a18c3e1c2bbe691cf689c00b9522b1d": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "If it exists but looks different, adjust the file or request a mapping fix.\n\nIf it exists but still fails, check whether your workflow is using the right Rule Profile (regional vs. common).\n\nAfter the mapping is corrected, reload and validate again.\n\nValidation Error-Mapping Error",
+    "content_summary": "If it exists but looks different, adjust the file or request a mapping fix.\n\nIf it exists but still ...",
+    "content_length": 281,
+    "created_at": "2025-11-02T21:58:05.136138",
+    "updated_at": "2025-11-02T21:58:05.684121"
+  },
+  "doc-e16b8771a1ab8fe5a7c40a0d7f824295": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Validation fails with “Invalid intersection.” This means that a combination of dimensions (for example, Account + UD) is not allowed in OneStream. It means that the data imported is incorrect from the OneStream data model perspective. E.g. you are trying to import IC transactions into non-IC P&L account. In rare cases it means an account or another item from your source data is new or has not been \"mapped\" in OneStream. The error message will show you the source value that it does not recognize",
+    "content_summary": "Validation fails with “Invalid intersection.” This means that a combination of dimensions (for examp...",
+    "content_length": 499,
+    "created_at": "2025-11-02T21:58:53.604770",
+    "updated_at": "2025-11-02T21:58:54.286432"
+  },
+  "doc-974b998f48ab04386086634cf8482ca8": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": ". In rare cases it means an account or another item from your source data is new or has not been \"mapped\" in OneStream. The error message will show you the source value that it does not recognize.",
+    "content_summary": ". In rare cases it means an account or another item from your source data is new or has not been \"ma...",
+    "content_length": 196,
+    "created_at": "2025-11-02T21:59:18.375061",
+    "updated_at": "2025-11-02T21:59:18.916330"
+  },
+  "doc-ea39b0642b07a482ff2bcf0a453bb06f": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nEach account in OneStream has rules for which UD (user-defined) members are allowed. If the file or mapping produces an invalid combination, validation fails.\n\nHow to Solve\n\nDrill down on the failing row to see which values were mapped.\n\nOpen a Cube View to see the valid combinations for the account.\n\nIf the mapping created the wrong combination, escalate to OS support for a fix.\n\nIf the source file used the wrong UD, correct the file and reload.\n\nValidate again after corrections.",
+    "content_summary": "Root Cause\nEach account in OneStream has rules for which UD (user-defined) members are allowed. If t...",
+    "content_length": 496,
+    "created_at": "2025-11-02T21:59:44.927533",
+    "updated_at": "2025-11-02T21:59:50.565533"
+  },
+  "doc-76aa6c22f3802deaded720e799800d74": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "If the mapping created the wrong combination, escalate to OS support for a fix.\n\nIf the source file used the wrong UD, correct the file and reload.\n\nValidate again after corrections.\n\n6. Conditional Mapping Error - Mapping Error\n\nDescription\nValidation may show errors when some required dimension combinations are missing. For example, if an Intercompany Partner is given without UD4 (business line), the system will reject the row.",
+    "content_summary": "If the mapping created the wrong combination, escalate to OS support for a fix.\n\nIf the source file ...",
+    "content_length": 433,
+    "created_at": "2025-11-02T22:00:18.081113",
+    "updated_at": "2025-11-02T22:00:18.936326"
+  },
+  "doc-f6b60420ea1af607508cb6e918ae83d8": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nOneStream enforces dimension combinations. If one is present but its required partner is missing or invalid, the record cannot pass validation.\n\nHow to Solve\n\nRead the error message carefully to identify the missing dimension.\n\nOpen your source file to check whether the dimension was provided.\n\nIf it was not, add it and reload.\n\nIf it should have been mapped automatically, check Transformation Rules or escalate to OS team.\n\nRe-run validation.",
+    "content_summary": "Root Cause\nOneStream enforces dimension combinations. If one is present but its required partner is ...",
+    "content_length": 457,
+    "created_at": "2025-11-02T22:00:49.361189",
+    "updated_at": "2025-11-02T22:00:49.730105"
+  },
+  "doc-6d66999398f94b7cc6674c227a4079c3": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "If it was not, add it and reload.\n\nIf it should have been mapped automatically, check Transformation Rules or escalate to OS team.\n\nRe-run validation.\n\nIncorrect formulation from OS- OneStream System Check",
+    "content_summary": "If it was not, add it and reload.\n\nIf it should have been mapped automatically, check Transformation...",
+    "content_length": 205,
+    "created_at": "2025-11-02T22:01:19.414604",
+    "updated_at": "2025-11-02T22:01:19.750016"
+  },
+  "doc-1aafc09ea3e8bdeaef865afda9540497": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Re-run validation.\n\nIncorrect formulation from OS- OneStream System Check\n\nOneStream and Excel works with specific formulations that the system pulls data to be presented on Excel. Therefore, personal made Excel documentations might not align with expected format and therefore even though the workbook has been refreshed, the data will not be presented on relevant cells. The root cause of the issue is that every excel document should align \n\nHow to solve:",
+    "content_summary": "Re-run validation.\n\nIncorrect formulation from OS- OneStream System Check\n\nOneStream and Excel works...",
+    "content_length": 458,
+    "created_at": "2025-11-02T22:01:59.883287",
+    "updated_at": "2025-11-02T22:02:00.251394"
+  },
+  "doc-ae1f1dfb6cc94cc45fdf25327dc9c2fb": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "How to solve: \n\nThe formulas stop functioning properly if e.g. you take an XFGetCell and then divide by another value, which is also a calculated amount.\nWe recommend that you put the data using XFGetCell on it's own and only apply any calculation is a separate cell.\nIn case your files are not working, this is because the OS formula gets broken at one point.I recommend that you simply the files you are working with.",
+    "content_summary": "How to solve: \n\nThe formulas stop functioning properly if e.g. you take an XFGetCell and then divide...",
+    "content_length": 419,
+    "created_at": "2025-11-02T22:02:31.022236",
+    "updated_at": "2025-11-02T22:02:31.364383"
+  },
+  "doc-60f6d19de7358e3edd06cf31c15732a3": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "In case there are XFGetCell data cells, without any further complications, which are not getting pulled, please document it and I can then forward the query to OneStream.\n\nToken / Time Synchronization Error (IDX10222) – OneStream System\n\nDescription\nWhen logging into OneStream, users sometimes receive an error that says:",
+    "content_summary": "In case there are XFGetCell data cells, without any further complications, which are not getting pul...",
+    "content_length": 322,
+    "created_at": "2025-11-02T22:03:05.800576",
+    "updated_at": "2025-11-02T22:03:06.133057"
+  },
+  "doc-40bb20380c8b404567120c05e612b932": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Token / Time Synchronization Error (IDX10222) – OneStream System\n\nDescription\nWhen logging into OneStream, users sometimes receive an error that says:\n\nIDX10222: Lifetime validation failed. The token is not yet valid.\nThis stops the user from logging in and blocks access to the system completely. For less experienced users, this error often looks like a complicated technical failure, but in reality, it is usually a simple clock setting issue.",
+    "content_summary": "Token / Time Synchronization Error (IDX10222) – OneStream System\n\nDescription\nWhen logging into OneS...",
+    "content_length": 446,
+    "created_at": "2025-11-02T22:04:51.791904",
+    "updated_at": "2025-11-02T22:04:52.331543"
+  },
+  "doc-4a57c6b9afbd15940a292bd5d99564c9": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nOneStream relies on secure authentication tokens, which are time-sensitive. If the local computer’s system clock is out of sync with the server time, the token will not be considered valid. Even a few minutes’ difference can sometimes cause the system to reject the login, but often the issue comes from a computer being hours behind or ahead. This is common if automatic time updates are turned off or if the machine was disconnected from the internet for a long time.\n\nHow to Solve",
+    "content_summary": "Root Cause\nOneStream relies on secure authentication tokens, which are time-sensitive. If the local ...",
+    "content_length": 494,
+    "created_at": "2025-11-02T22:05:21.622272",
+    "updated_at": "2025-11-02T22:05:21.983204"
+  },
+  "doc-f7f61d30a0ba8c3e8f0c330fd9e6d495": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "How to Solve\n\nOn your computer, open the Date and Time settings.\n\nMake sure “Set time automatically” and “Set time zone automatically” are enabled.\n\nIf they are not, turn them on, or manually adjust the time to match the correct local time.\n\nIf needed, enable Internet Time synchronization so your computer clock updates from a server regularly.\n\nRestart OneStream and try logging in again.",
+    "content_summary": "How to Solve\n\nOn your computer, open the Date and Time settings.\n\nMake sure “Set time automatically”...",
+    "content_length": 390,
+    "created_at": "2025-11-02T22:05:59.752705",
+    "updated_at": "2025-11-02T22:06:00.173627"
+  },
+  "doc-ce0780d24064345ea48452ca4fdab2ad": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "If needed, enable Internet Time synchronization so your computer clock updates from a server regularly.\n\nRestart OneStream and try logging in again.\n\nIf multiple users in the same entity experience the same issue, escalate to IT — this may mean your company’s domain controllers are not synchronizing time properly.\n\nOkta Application Assignment Error- OneStream System Error\n\nDescription\nSometimes when logging in through Okta, you see a message like:",
+    "content_summary": "If needed, enable Internet Time synchronization so your computer clock updates from a server regular...",
+    "content_length": 451,
+    "created_at": "2025-11-02T22:06:33.296495",
+    "updated_at": "2025-11-02T22:06:33.696436"
+  },
+  "doc-91e3cfc66eaed3a2d0dab9d108d31c62": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Okta Application Assignment Error- OneStream System Error\n\nDescription\nSometimes when logging in through Okta, you see a message like:\n\nUser is not assigned to this application.\nThis prevents you from opening OneStream or related apps (such as LinkedIn Learning if connected). It often looks like a personal login error, but the issue is that your Okta account simply does not have the right application assigned.",
+    "content_summary": "Okta Application Assignment Error- OneStream System Error\n\nDescription\nSometimes when logging in thr...",
+    "content_length": 413,
+    "created_at": "2025-11-02T22:07:17.992217",
+    "updated_at": "2025-11-02T22:07:18.440625"
+  },
+  "doc-3bc0476982b473c0c6452bae3ff8228c": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Root Cause\nOkta manages which applications each user can access. If your account is not assigned to the OneStream app, Okta blocks the login attempt. This usually happens with new employees whose accounts were not fully provisioned, or when role changes are not reflected in Okta.\n\nHow to Solve\n\nFirst confirm that you are logging in with your official corporate email address. Using a personal email will not work.",
+    "content_summary": "Root Cause\nOkta manages which applications each user can access. If your account is not assigned to ...",
+    "content_length": 415,
+    "created_at": "2025-11-02T22:07:56.678019",
+    "updated_at": "2025-11-02T22:07:57.087654"
+  }
+}
