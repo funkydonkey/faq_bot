@@ -1,8 +1,15 @@
 """Main application file with Gradio chat interface."""
 import os
+import warnings
+import logging
 import glob
 import gradio as gr
 from dotenv import load_dotenv
+
+# Suppress warnings before importing autogen-related modules
+warnings.filterwarnings('ignore', message='.*flaml.automl.*')
+logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
+
 from openai_agent import OpenAIAgentRunner
 
 # Load environment variables
@@ -181,7 +188,7 @@ def main():
     demo = create_interface()
     demo.launch(
         server_name="0.0.0.0",
-        server_port=7860,
+        server_port=8080,
         share=False
     )
 
