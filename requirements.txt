@@ -6,9 +6,12 @@ autogen-core==0.6.1
 autogen-ext==0.6.1
 python-dotenv>=1.0.0
 openai-agents==0.4.2
-minirag-hku==0.0.2
 lightrag-hku==1.4.9.7
 nltk==3.9.2
 rouge==1.0.1
 langchain==1.0.3
 langchain-text-splitters==1.0.0
+python-dotenv==1.1.0
+torch>=2.0.0
+sentence-transformers>=2.2.0
+numpy<2.0.0

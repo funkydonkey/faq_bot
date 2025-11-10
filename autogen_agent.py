@@ -3,7 +3,10 @@ import os
 import warnings
 import logging
 from typing import Optional
-from autogen.agentchat import UserProxyAgent, AssistantAgent
+from autogen_agentchat.agents import AssistantAgent
+from autogen_agentchat.messages import TextMessage
+from autogen_core import CancellationToken
+from autogen_ext.models.openai import OpenAIChatCompletionClient
 
 # Suppress FLAML warning
 warnings.filterwarnings('ignore', message='.*flaml.automl.*')
@@ -26,22 +29,17 @@ class DocumentSearchAgent:
         self.doc_content = doc_content
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
 
-        # Configure Autogen
-        config_list = [
-            {
-                "model": "gpt-4",
-                "api_key": self.api_key,
-            }
-        ]
+        # Create OpenAI model client (v0.6 API)
+        self.model_client = OpenAIChatCompletionClient(
+            model="gpt-4o",
+            api_key=self.api_key,
+            temperature=0.7,
+        )
 
-        llm_config = {
-            "config_list": config_list,
-            "temperature": 0.7,
-        }
-
-        # Create assistant agent with document content
+        # Create assistant agent with document content (v0.6 API)
         self.assistant = AssistantAgent(
             name="document_search_assistant",
+            model_client=self.model_client,
             system_message=f"""You are a document search specialist. Your job is to search through document content and find relevant information to answer questions.
 
 Document Content:
@@ -53,18 +51,9 @@ Your task:
 3. Return ONLY information found in the document
 4. If information is not in the document, clearly state: "This information is not found in the document."
 5. Be concise and cite specific parts when answering""",
-            llm_config=llm_config,
         )
 
-        # Create user proxy agent (non-interactive)
-        self.user_proxy = UserProxyAgent(
-            name="user_proxy",
-            human_input_mode="NEVER",
-            max_consecutive_auto_reply=0,
-            code_execution_config=False,
-        )
-
-    def search(self, question: str) -> str:
+    async def search(self, question: str) -> str:
         """
         Search the document and return an answer.
 
@@ -75,38 +64,19 @@ Your task:
             Answer based on document content
         """
         try:
-            # Initiate chat to get answer
-            self.user_proxy.initiate_chat(
-                self.assistant,
-                message=question,
-                clear_history=False,
-                silent=True
+            # Use on_messages method (v0.6 API)
+            response = await self.assistant.on_messages(
+                [TextMessage(content=question, source="user")],
+                CancellationToken()
             )
 
-            # Get the chat history
-            chat_history = self.user_proxy.chat_messages.get(self.assistant, [])
+            # Extract response content
+            if response.chat_message:
+                content = response.chat_message.content
+                if isinstance(content, str) and content.strip():
+                    return content
 
-            # Find the last assistant message
-            for message in reversed(chat_history):
-                if (message.get("name") == "document_search_assistant" or
-                    message.get("role") == "assistant"):
-                    content = message.get("content", "")
-                    if content and content.strip():
-                        # Clear history for next search
-                        self.user_proxy.clear_history()
-                        self.assistant.clear_history()
-                        return content
-
-            # Clear history
-            self.user_proxy.clear_history()
-            self.assistant.clear_history()
             return "No response generated from document search."
 
         except Exception as e:
-            # Clear history even on error
-            try:
-                self.user_proxy.clear_history()
-                self.assistant.clear_history()
-            except:
-                pass
             return f"Error during document search: {str(e)}"

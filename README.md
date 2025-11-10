@@ -1,12 +1,13 @@
 # FAQ Bot - Document Q&A System
 
-A Gradio-based chat application that answers questions about documents using OpenAI and AutoGen agents with MiniRAG knowledge graph retrieval.
+A Gradio-based chat application that answers questions about documents using a three-layer agent architecture: OpenAI orchestrator, clarification agent with hybrid entity search, and AutoGen document search with MiniRAG knowledge graph retrieval.
 
 ## Features
 
-- 📄 Auto-loads DOCX documents from `docs/` folder
-- 🤖 Uses OpenAI GPT-4o for intelligent question answering
-- 🔍 MiniRAG knowledge graph for enhanced retrieval
+- 📄 **Multi-format support**: DOCX, DOC, TXT files from `docs/` folder
+- 🤖 **Three-layer agents**: OpenAI orchestrator → Clarification/Search agents → Documents
+- 🔍 **Hybrid search**: LLM entity extraction with direct vector fallback
+- 💰 **Cost-optimized**: gpt-4o-mini for indexing (15x cheaper), gpt-4o for runtime
 - 💬 Clean Gradio chat interface
 - 🚀 No manual upload needed - just drop files in `docs/`
 
@@ -39,10 +40,16 @@ pip install -r requirements.txt
 echo "OPENAI_API_KEY=your-api-key-here" > .env
 ```
 
-5. Add your DOCX file to the `docs/` folder:
+5. Add your documents to the `docs/` folder (supports DOCX, DOC, TXT):
 ```bash
 mkdir -p docs
 cp your-document.docx docs/
+cp your-faq.txt docs/
+```
+
+6. Index your documents (optional - creates knowledge graph):
+```bash
+python indexing.py
 ```
 
 ## Usage
@@ -54,7 +61,25 @@ source venv/bin/activate
 python app.py
 ```
 
-The app will start at http://localhost:7860
+The app will start at http://localhost:8080
+
+### Index Documents
+
+To index all documents from the `docs/` folder:
+
+```bash
+python indexing.py
+```
+
+Supported formats: DOCX, DOC, TXT
+
+### Preview Files to Index
+
+See what files would be indexed without running full indexing:
+
+```bash
+python demo_indexing.py
+```
 
 ### Run MiniRAG Test
 
@@ -68,30 +93,42 @@ python test.py
 
 ```
 faq_bot/
-├── app.py                 # Main Gradio application
-├── autogen_agent.py       # AutoGen document search agent
-├── openai_agent.py        # OpenAI agent runner
-├── docx_reader.py         # DOCX file reader
-├── test.py                # MiniRAG test script
-├── requirements.txt       # Python dependencies
-├── docs/                  # Place your DOCX files here
-├── kb/                    # MiniRAG knowledge base (auto-generated)
-└── .env                   # API keys (not in git)
+├── app.py                    # Main Gradio application
+├── openai_agent.py           # OpenAI orchestrator agent
+├── clarification_agent.py    # Entity extraction agent (hybrid search)
+├── autogen_agent.py          # AutoGen document search agent
+├── docx_reader.py            # DOCX file reader
+├── indexing.py               # Multi-format document indexing (DOCX, DOC, TXT)
+├── demo_indexing.py          # Preview files to be indexed
+├── graph.py                  # Knowledge graph visualization
+├── test.py                   # MiniRAG test script
+├── requirements.txt          # Python dependencies
+├── docs/                     # Place your documents here (DOCX, DOC, TXT)
+├── kb/                       # MiniRAG knowledge base (auto-generated)
+├── INDEXING_GUIDE.md         # Complete indexing documentation
+├── MODEL_OPTIMIZATION.md     # Cost analysis and recommendations
+└── .env                      # API keys (not in git)
 ```
 
 ## Configuration
 
-- **Model**: GPT-4o (configurable in `app.py`)
-- **Port**: 7860 (configurable in `app.py`)
-- **Document folder**: `docs/` (first .docx file is loaded)
+- **Models**:
+  - Runtime: GPT-4o for orchestrator, clarification, and search (best quality)
+  - Indexing: gpt-4o-mini (94% cost savings)
+  - Embeddings: text-embedding-3-small (most cost-efficient)
+- **Port**: 8080 (configurable in `app.py`)
+- **Document folder**: `docs/` (supports DOCX, DOC, TXT)
+- **Vector threshold**: 0.0 for maximum recall with fallback strategy
 
 ## Technologies Used
 
 - **Gradio**: Web UI framework
-- **OpenAI GPT-4o**: Language model
+- **OpenAI GPT-4o**: Language model for runtime queries
+- **OpenAI gpt-4o-mini**: Cost-efficient model for indexing
 - **AutoGen**: Multi-agent conversation framework
-- **MiniRAG**: Knowledge graph retrieval system
-- **python-docx**: Document parsing
+- **MiniRAG**: Knowledge graph retrieval system with hybrid search
+- **python-docx**: DOCX/DOC document parsing
+- **LangChain**: Text splitting and chunking
 
 ## Troubleshooting
 
@@ -110,6 +147,17 @@ max_consecutive_auto_reply=0  # Should be 0, not 1
 ### OpenAI API Errors
 - Verify your API key in `.env`
 - Check your OpenAI account has credits
+
+### Empty Entity Results
+If queries return no entities:
+- Threshold is set to 0.0 in `clarification_agent.py:42-44`
+- Hybrid fallback automatically engages when mini mode returns empty
+- Check that documents are properly indexed in `kb/` directory
+
+### Cost Optimization
+- Indexing uses gpt-4o-mini (~$0.11 per 2MB document)
+- Runtime queries use gpt-4o (~$0.02 per query)
+- See `MODEL_OPTIMIZATION.md` for detailed cost analysis
 
 ## License
 

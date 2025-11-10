@@ -5,6 +5,7 @@ import logging
 import glob
 import gradio as gr
 from dotenv import load_dotenv
+from agents import trace
 
 # Suppress warnings before importing autogen-related modules
 warnings.filterwarnings('ignore', message='.*flaml.automl.*')
@@ -88,17 +89,17 @@ def create_interface():
     """Create the Gradio interface."""
 
     with gr.Blocks(title="Document Q&A Bot", theme=gr.themes.Soft()) as demo:
-        gr.Markdown(
-            """
-            # 📄 Document Q&A Bot
-            Ask questions about your document!
+        # gr.Markdown(
+        #     """
+        #     # 📄 Document Q&A Bot
+        #     Ask questions about your document!
 
-            **Features:**
-            - Auto-loads document from `docs/` folder
-            - Uses OpenAI Agents SDK for query processing
-            - Intelligent question answering based on document content
-            """
-        )
+        #     **Features:**
+        #     - Auto-loads document from `docs/` folder
+        #     - Uses OpenAI Agents SDK for query processing
+        #     - Intelligent question answering based on document content
+        #     """
+        # )
 
         # Document status display
         status_box = gr.Textbox(
@@ -152,19 +153,24 @@ def create_interface():
             outputs=[chatbot, msg]
         )
 
+        def clear_chat_handler():
+            """Clear chat and return empty message list."""
+            clear_chat()
+            return []
+
         clear_btn.click(
-            fn=lambda: ([], clear_chat()),
+            fn=clear_chat_handler,
             outputs=[chatbot]
         )
 
-        gr.Markdown(
-            """
-            ---
-            **Note:**
-            - Place your DOCX file in the `docs/` folder
-            - Make sure `OPENAI_API_KEY` is set in the `.env` file
-            """
-        )
+        # gr.Markdown(
+        #     """
+        #     ---
+        #     **Note:**
+        #     - Place your DOCX file in the `docs/` folder
+        #     - Make sure `OPENAI_API_KEY` is set in the `.env` file
+        #     """
+        # )
 
         # Load document on startup
         demo.load(
