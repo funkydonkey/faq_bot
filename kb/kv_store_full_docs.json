@@ -91,5 +91,14 @@
   },
   "doc-91e3cfc66eaed3a2d0dab9d108d31c62": {
     "content": "Okta Application Assignment Error- OneStream System Error\n\nDescription\nSometimes when logging in through Okta, you see a message like:\n\nUser is not assigned to this application.\nThis prevents you from opening OneStream or related apps (such as LinkedIn Learning if connected). It often looks like a personal login error, but the issue is that your Okta account simply does not have the right application assigned."
+  },
+  "doc-0a1b306aafb6a167784f89569e00a08f": {
+    "content": "Berlin   \t\t\t\t\t    \t\t\t\t                   Authorized to work in Germany\n\nAndrey Molchansky\n\na.molchansky@gmail.com | +49(176)648-121-94 \n\nSenior Finance Controller\n\nSenior Finance Manager with a strong track record in group consolidation, financial systems implementation, and cross-functional stakeholder management. Key contributor to large-scale data migration and reporting automation initiatives at Delivery Hero, including the full transition from LucaNet to OneStream. \n\nWORK EXPERIENCE"
+  },
+  "doc-a7f321d1a9e7585433605b68325a3588": {
+    "content": "WORK EXPERIENCE\n\nDelivery Hero SE\tNov 2023 – Present\n\nHolding company for 11 brands of food delivery operating all over the world.\n\nSenior Group Controller\tApr 2025 – Present\n\nBuilt key reports: Free Cash Flow for Monthly performance review, Valuation dashboard, Unit economics, Submission tracking."
+  },
+  "doc-f0a908860fd474846e3d6627a93dc0ad": {
+    "content": "Senior Group Controller\tApr 2025 – Present\n\nBuilt key reports: Free Cash Flow for Monthly performance review, Valuation dashboard, Unit economics, Submission tracking.\n\nLed key role in Financial ScoreCard Project: defined methodology, then built reports and calculations to automate screening of submitted trial balances across 11 Regions (incl. 340 legal entities) to facilitate MEC procedures."
   }
 }

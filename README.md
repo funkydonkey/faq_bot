@@ -9,7 +9,8 @@ A Gradio-based chat application that answers questions about documents using a t
 - 🔍 **Hybrid search**: LLM entity extraction with direct vector fallback
 - 💰 **Cost-optimized**: gpt-4o-mini for indexing (15x cheaper), gpt-4o for runtime
 - 💬 Clean Gradio chat interface
-- 🚀 No manual upload needed - just drop files in `docs/`
+- ⚙️ **Separate admin interface**: Document management and indexing GUI on dedicated port
+- 🔒 **Security-focused**: Admin interface isolated for restricted access
 
 ## Prerequisites
 
@@ -54,19 +55,43 @@ python indexing.py
 
 ## Usage
 
-### Run the Gradio App
+The FAQ Bot consists of **two separate applications**:
+
+### 1. Chat Application (End Users) - Port 8080
 
 ```bash
 source venv/bin/activate
 python app.py
 ```
 
-The app will start at http://localhost:8080
+The chat interface will start at **http://localhost:8080**
+
+This is the main user-facing interface for asking questions about documents.
+
+### 2. Config Application (Administrators Only) - Port 8081
+
+```bash
+source venv/bin/activate
+python config_app.py
+```
+
+The configuration interface will start at **http://localhost:8081**
+
+This interface provides:
+- Document upload and management
+- Indexing trigger and monitoring
+- Document deletion
+
+**⚠️ SECURITY:** Restrict access to port 8081 using firewall rules, VPN, or reverse proxy with authentication. See `CONFIG_GUI_GUIDE.md` for details.
 
 ### Index Documents
 
-To index all documents from the `docs/` folder:
+**Option 1: Using Config GUI (Recommended)**
+1. Open http://localhost:8081
+2. Go to the **Indexing** tab
+3. Click **Run Indexing**
 
+**Option 2: Command Line**
 ```bash
 python indexing.py
 ```
@@ -93,7 +118,9 @@ python test.py
 
 ```
 faq_bot/
-├── app.py                    # Main Gradio application
+├── app.py                    # Main chat application (port 8080)
+├── config_app.py             # Admin config application (port 8081)
+├── config_ui.py              # Config UI components
 ├── openai_agent.py           # OpenAI orchestrator agent
 ├── clarification_agent.py    # Entity extraction agent (hybrid search)
 ├── autogen_agent.py          # AutoGen document search agent
@@ -105,6 +132,7 @@ faq_bot/
 ├── requirements.txt          # Python dependencies
 ├── docs/                     # Place your documents here (DOCX, DOC, TXT)
 ├── kb/                       # MiniRAG knowledge base (auto-generated)
+├── CONFIG_GUI_GUIDE.md       # Configuration interface guide
 ├── INDEXING_GUIDE.md         # Complete indexing documentation
 ├── MODEL_OPTIMIZATION.md     # Cost analysis and recommendations
 └── .env                      # API keys (not in git)
@@ -116,7 +144,9 @@ faq_bot/
   - Runtime: GPT-4o for orchestrator, clarification, and search (best quality)
   - Indexing: gpt-4o-mini (94% cost savings)
   - Embeddings: text-embedding-3-small (most cost-efficient)
-- **Port**: 8080 (configurable in `app.py`)
+- **Ports**:
+  - Chat application: 8080 (user-facing)
+  - Config application: 8081 (admin-only)
 - **Document folder**: `docs/` (supports DOCX, DOC, TXT)
 - **Vector threshold**: 0.0 for maximum recall with fallback strategy
 

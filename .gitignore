@@ -54,3 +54,8 @@ Thumbs.db
 # Sample/test files (optional)
 sample_faq.docx
 test.py
+
+
+# User-specific files
+docs/
+kb/
