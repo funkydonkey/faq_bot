@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <title>FAQ Bot - Open Source Document Q&A with AI | GPT-4 Powered</title>
+    <meta name="description" content="Turn your documents into an AI assistant. Open-source chatbot powered by GPT-4. No coding required. Free alternative to enterprise document search.">
+    <meta name="keywords" content="document qa, ai chatbot, open source, gpt-4, document search, knowledge base">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FAQ Bot - Document Q&A with AI">
+    <meta property="og:description" content="Open-source AI assistant for your documents">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/funkydonkey/faq_bot">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FAQ Bot - Document Q&A">
+    <meta name="twitter:description" content="Open-source AI chatbot for document search">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="logo-text">FAQ Bot</span>
+                </div>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="https://github.com/funkydonkey/faq_bot" class="nav-link" target="_blank">GitHub</a></li>
+                    <li><a href="https://github.com/funkydonkey/faq_bot/releases" class="btn btn-primary btn-nav">Download v1.0</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title fade-in-up">Turn Your Documents Into an AI Assistant</h1>
+                    <p class="hero-subtitle fade-in-up delay-1">Open-source chatbot that answers questions about your documents. No coding required.</p>
+
+                    <div class="hero-buttons fade-in-up delay-2">
+                        <a href="https://github.com/funkydonkey/faq_bot/releases" class="btn btn-primary btn-large">Download v1.0</a>
+                        <a href="#demo" class="btn btn-secondary btn-large">Watch Demo</a>
+                    </div>
+
+                    <div class="social-proof fade-in-up delay-3">
+                        <span class="proof-item">⭐ 127+ GitHub Stars</span>
+                        <span class="proof-item">🔓 100% Open Source</span>
+                        <span class="proof-item">💰 ~$0.02 per question</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual fade-in-up delay-2">
+                    <div class="chat-mockup">
+                        <div class="chat-header">
+                            <div class="chat-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span class="chat-title">FAQ Bot</span>
+                        </div>
+                        <div class="chat-messages">
+                            <div class="message user-message" id="userMessage">
+                                How do I reset my password?
+                            </div>
+                            <div class="message bot-message" id="botMessage">
+                                <div class="typing-indicator" id="typingIndicator">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="answer" id="answer">
+                                    To reset your password, go to Settings > Security > Reset Password. You'll receive a confirmation email with a reset link valid for 24 hours.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background"></div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section" id="problem">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="problem-card scroll-fade">
+                    <div class="problem-icon">📄</div>
+                    <h3 class="problem-title">Scattered Information</h3>
+                    <p class="problem-description">Your knowledge is spread across dozens of Word docs and PDFs</p>
+                </div>
+
+                <div class="problem-card scroll-fade">
+                    <div class="problem-icon">⏱️</div>
+                    <h3 class="problem-title">Time Wasted</h3>
+                    <p class="problem-description">Team spends hours searching for answers in documentation</p>
+                </div>
+
+                <div class="problem-card scroll-fade">
+                    <div class="problem-icon">💸</div>
+                    <h3 class="problem-title">Expensive Solutions</h3>
+                    <p class="problem-description">Enterprise document search tools cost $1000s per month</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Get Started in 3 Steps</h2>
+
+            <div class="steps-container">
+                <div class="step scroll-fade">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Download & Setup</h3>
+                    <p class="step-description">Run setup.bat (Windows) or setup.sh (Mac/Linux). Ready in 2 minutes.</p>
+                    <div class="step-visual">
+                        <svg viewBox="0 0 100 80" fill="none">
+                            <rect x="10" y="10" width="80" height="60" rx="4" stroke="currentColor" stroke-width="2"/>
+                            <line x1="20" y1="25" x2="50" y2="25" stroke="currentColor" stroke-width="2"/>
+                            <line x1="20" y1="35" x2="70" y2="35" stroke="currentColor" stroke-width="2"/>
+                            <line x1="20" y1="45" x2="60" y2="45" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step scroll-fade delay-1">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Add Documents</h3>
+                    <p class="step-description">Drop your .docx or .txt files into the docs/ folder</p>
+                    <div class="step-visual">
+                        <svg viewBox="0 0 100 80" fill="none">
+                            <rect x="20" y="20" width="60" height="50" rx="4" stroke="currentColor" stroke-width="2"/>
+                            <rect x="30" y="30" width="15" height="20" rx="2" fill="currentColor" opacity="0.3"/>
+                            <rect x="50" y="30" width="15" height="20" rx="2" fill="currentColor" opacity="0.5"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step scroll-fade delay-2">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Start Asking</h3>
+                    <p class="step-description">Open the chat interface and ask questions about your documents</p>
+                    <div class="step-visual">
+                        <svg viewBox="0 0 100 80" fill="none">
+                            <rect x="10" y="10" width="80" height="60" rx="8" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="30" cy="30" r="3" fill="currentColor"/>
+                            <circle cx="40" cy="30" r="3" fill="currentColor"/>
+                            <circle cx="50" cy="30" r="3" fill="currentColor"/>
+                            <rect x="15" y="45" width="50" height="8" rx="4" fill="currentColor" opacity="0.3"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Everything You Need</h2>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Zero Configuration</h3>
+                    <p class="feature-description">Install in 5 minutes. No coding required. Just download and run setup.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-1">
+                    <div class="feature-icon">💰</div>
+                    <h3 class="feature-title">Cost-Effective</h3>
+                    <p class="feature-description">~$0.11 per document indexing, ~$0.02 per question. 99% cheaper than enterprise tools.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-2">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Private & Secure</h3>
+                    <p class="feature-description">Your documents stay on your computer. Only Q&A text sent to OpenAI API.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-3">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Actually Smart</h3>
+                    <p class="feature-description">3-layer AI architecture with GPT-4. Handles ambiguous questions intelligently.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <h2 class="section-title">See It In Action</h2>
+
+            <div class="demo-content">
+                <div class="demo-placeholder">
+                    <div class="demo-text">
+                        <h3>Demo video coming soon!</h3>
+                        <p>In the meantime, check out the screenshots below.</p>
+                    </div>
+                </div>
+
+                <div class="screenshots-grid">
+                    <div class="screenshot-card scroll-fade">
+                        <div class="screenshot-placeholder">
+                            <svg viewBox="0 0 200 150" fill="none">
+                                <rect width="200" height="150" fill="#F3F4F6"/>
+                                <circle cx="100" cy="75" r="30" stroke="#9CA3AF" stroke-width="2"/>
+                                <path d="M70 75L90 95L130 55" stroke="#9CA3AF" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <p class="screenshot-caption">Upload documents via GUI</p>
+                    </div>
+
+                    <div class="screenshot-card scroll-fade delay-1">
+                        <div class="screenshot-placeholder">
+                            <svg viewBox="0 0 200 150" fill="none">
+                                <rect width="200" height="150" fill="#F3F4F6"/>
+                                <rect x="20" y="20" width="160" height="8" rx="4" fill="#9CA3AF"/>
+                                <rect x="20" y="40" width="120" height="8" rx="4" fill="#9CA3AF"/>
+                                <rect x="20" y="60" width="140" height="8" rx="4" fill="#9CA3AF"/>
+                            </svg>
+                        </div>
+                        <p class="screenshot-caption">Automatic indexing</p>
+                    </div>
+
+                    <div class="screenshot-card scroll-fade delay-2">
+                        <div class="screenshot-placeholder">
+                            <svg viewBox="0 0 200 150" fill="none">
+                                <rect width="200" height="150" fill="#F3F4F6"/>
+                                <circle cx="100" cy="75" r="40" stroke="#9CA3AF" stroke-width="2"/>
+                                <path d="M100 55 L100 75 L115 75" stroke="#9CA3AF" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <p class="screenshot-caption">Get instant answers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Comparison -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">100% Free & Open Source</h2>
+
+            <div class="pricing-table-wrapper scroll-fade">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-column">FAQ Bot (Free)</th>
+                            <th>Enterprise Tools</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly Cost</td>
+                            <td class="highlight-column">$0 + API (~$20)</td>
+                            <td>$1,000 - $5,000</td>
+                        </tr>
+                        <tr>
+                            <td>Setup Time</td>
+                            <td class="highlight-column">5 minutes</td>
+                            <td>Weeks</td>
+                        </tr>
+                        <tr>
+                            <td>Data Privacy</td>
+                            <td class="highlight-column">On your computer</td>
+                            <td>Cloud storage</td>
+                        </tr>
+                        <tr>
+                            <td>Customization</td>
+                            <td class="highlight-column">Full source code</td>
+                            <td>Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Support</td>
+                            <td class="highlight-column">Community</td>
+                            <td>Paid</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cost-calculator scroll-fade">
+                <h3 class="calculator-title">Cost Calculator</h3>
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="documents">Number of documents: <span id="docCount">10</span></label>
+                        <input type="range" id="documents" min="1" max="100" value="10" class="slider">
+                    </div>
+                    <div class="input-group">
+                        <label for="questions">Questions per month: <span id="questionCount">1000</span></label>
+                        <input type="range" id="questions" min="100" max="10000" value="1000" step="100" class="slider">
+                    </div>
+                </div>
+                <div class="calculator-result">
+                    <p>Estimated monthly cost: <span class="cost-amount" id="costResult">$21.10</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-stack-section" id="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Built with Modern AI Stack</h2>
+
+            <div class="tech-logos scroll-fade">
+                <div class="tech-logo">
+                    <div class="tech-icon">🐍</div>
+                    <span>Python 3.12</span>
+                </div>
+                <div class="tech-logo">
+                    <div class="tech-icon">🤖</div>
+                    <span>OpenAI GPT-4</span>
+                </div>
+                <div class="tech-logo">
+                    <div class="tech-icon">⚡</div>
+                    <span>AutoGen</span>
+                </div>
+                <div class="tech-logo">
+                    <div class="tech-icon">🎨</div>
+                    <span>Gradio</span>
+                </div>
+                <div class="tech-logo">
+                    <div class="tech-icon">🔍</div>
+                    <span>MiniRAG</span>
+                </div>
+                <div class="tech-logo">
+                    <div class="tech-icon">🔗</div>
+                    <span>LangChain</span>
+                </div>
+            </div>
+
+            <div class="code-snippet scroll-fade">
+                <div class="code-header">
+                    <span class="code-title">It's this simple:</span>
+                    <button class="copy-button" id="copyButton">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <pre><code id="codeBlock">from openai_agent import OpenAIAgentRunner
+
+agent = OpenAIAgentRunner(docx_path="your-doc.docx")
+answer = agent.process_query("How do I reset my password?")</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+
+            <div class="faq-container">
+                <div class="faq-item scroll-fade">
+                    <button class="faq-question">
+                        <span>Do I need programming experience?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No! FAQ Bot is designed for non-technical users. Just run setup, add documents, and start asking questions.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-1">
+                    <button class="faq-question">
+                        <span>What file formats are supported?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Currently: Word documents (.docx, .doc) and text files (.txt). PDF and Excel support coming soon.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-2">
+                    <button class="faq-question">
+                        <span>How much does it cost?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The software is free. You only pay for OpenAI API usage (~$0.11 per document, ~$0.02 per question).</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-3">
+                    <button class="faq-question">
+                        <span>Is my data private?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Documents stay on your computer. Only question/answer text is sent to OpenAI API.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-4">
+                    <button class="faq-question">
+                        <span>Can I use it commercially?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! MIT License allows commercial use without restrictions.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-5">
+                    <button class="faq-question">
+                        <span>What if I need help?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Check our documentation, open a GitHub issue, or email a.molchansky@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Documents?</h2>
+                <p class="cta-subtitle">Join 500+ users who've made document search effortless</p>
+
+                <div class="cta-buttons">
+                    <a href="https://github.com/funkydonkey/faq_bot/releases" class="btn btn-primary btn-large btn-cta">Download v1.0</a>
+                    <a href="https://github.com/funkydonkey/faq_bot" class="btn btn-secondary btn-large btn-cta">Star on GitHub</a>
+                </div>
+
+                <a href="https://github.com/funkydonkey/faq_bot#readme" class="cta-link">Read Documentation →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/funkydonkey/faq_bot/releases">Download</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot#readme">Documentation</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/projects">Roadmap</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/releases">Changelog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/funkydonkey/faq_bot">GitHub Repository</a></li>
+                        <li><a href="#" class="disabled">Discord (Coming Soon)</a></li>
+                        <li><a href="https://twitter.com">Twitter</a></li>
+                        <li><a href="mailto:a.molchansky@gmail.com">Email Newsletter</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/README.md">User Guide</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/CLAUDE.md">Developer Docs</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/CONTRIBUTING.md">Contributing</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/LICENSE">License (MIT)</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="mailto:a.molchansky@gmail.com">Contact</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 FAQ Bot. Built with ❤️ for the open-source community</p>
+                <div class="footer-social">
+                    <a href="https://github.com/funkydonkey/faq_bot" aria-label="GitHub" target="_blank">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com" aria-label="Twitter" target="_blank">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:a.molchansky@gmail.com" aria-label="Email">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
