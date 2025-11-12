@@ -88,7 +88,7 @@
                         </div>
                         <div class="chat-messages">
                             <div class="message user-message" id="userMessage">
-                                How many vacation days do full-time employees get?
+                                What's the approval limit for marketing expenses?
                             </div>
                             <div class="message bot-message" id="botMessage">
                                 <div class="typing-indicator" id="typingIndicator">
@@ -97,7 +97,7 @@
                                     <span></span>
                                 </div>
                                 <div class="answer" id="answer">
-                                    According to the HR policy document, full-time employees receive 15 days of paid vacation annually. Part-time employees receive prorated vacation based on hours worked. Vacation days accrue monthly and can be carried over up to 5 days per year.
+                                    According to the Corporate Finance Policy (Section 4.2), marketing expenses up to $5,000 require manager approval. Expenses between $5,000-$25,000 need VP approval, and anything above $25,000 requires CFO sign-off. All expenses must include three vendor quotes.
                                 </div>
                             </div>
                         </div>
@@ -163,13 +163,13 @@
                         <p>Your documents (DOCX, DOC, or TXT) are read and parsed. The system extracts all text content, including paragraphs and tables, while removing formatting. Long documents are automatically split into smaller chunks (500 characters each with 200-character overlap) to ensure context isn't lost between sections.</p>
                         <div class="indexing-example">
                             <div class="example-row">
-                                <span class="example-label">Input:</span> <code>HR_Policy.docx</code> (2MB, 50 pages)
+                                <span class="example-label">Input:</span> <code>Finance_Policy.docx</code> (2MB, 50 pages)
                             </div>
                             <div class="example-row">
                                 <span class="example-label">Output:</span> ~250 text chunks ready for processing
                             </div>
                             <div class="example-row">
-                                <span class="example-label">Example chunk:</span> "Vacation policy: Full-time employees receive 15 days of paid vacation per year..."
+                                <span class="example-label">Example chunk:</span> "Budget approval process: Expenses up to $5,000 require manager approval, $5,000-$25,000 need VP sign-off..."
                             </div>
                         </div>
                         <div class="tech-detail">
@@ -185,14 +185,14 @@
                         <p>Each text chunk is converted into a mathematical representation called a "vector embedding" - essentially a list of 1,536 numbers that captures the semantic meaning of the text. OpenAI's <code>text-embedding-3-small</code> model generates these embeddings.</p>
                         <div class="indexing-example">
                             <div class="example-row">
-                                <span class="example-label">Text chunk:</span> "vacation policy for employees"
+                                <span class="example-label">Text chunk:</span> "quarterly budget allocation and approval thresholds"
                             </div>
                             <div class="example-row">
                                 <span class="example-label">Embedding:</span> <code>[0.23, -0.45, 0.12, 0.67, -0.89, ...]</code> (1,536 numbers total)
                             </div>
                         </div>
                         <div class="embedding-note">
-                            <strong>Why embeddings?</strong> Computers can't understand text directly, but they can compare numbers. Similar concepts get similar vector values, so the bot can find "time off" even if you search for "vacation". This is how semantic search works - it understands meaning, not just keywords.
+                            <strong>Why embeddings?</strong> Computers can't understand text directly, but they can compare numbers. Similar concepts get similar vector values, so the bot can find "capital expenditure" even if you search for "large equipment purchase". This is how semantic search works - it understands meaning, not just keywords.
                         </div>
                         <div class="tech-detail">
                             <strong>Cost:</strong> At $0.02 per 1M tokens, embedding a 2MB document costs ~$0.0025. Super cheap!
@@ -207,23 +207,23 @@
                         <p>Here's where the magic happens: GPT-4o-mini analyzes each chunk and extracts entities (people, departments, policies, dates) and their relationships. This creates a structured knowledge graph that connects related information across your entire document collection.</p>
                         <div class="graph-example">
                             <div class="graph-row">
-                                <div class="entity">HR Department</div>
+                                <div class="entity">Finance Department</div>
                                 <div class="relation">→ manages →</div>
-                                <div class="entity">Vacation Policy</div>
+                                <div class="entity">Budget Policy</div>
                             </div>
                             <div class="graph-row">
-                                <div class="entity">Vacation Policy</div>
-                                <div class="relation">→ grants →</div>
-                                <div class="entity">15 Days Annually</div>
+                                <div class="entity">Budget Policy</div>
+                                <div class="relation">→ requires →</div>
+                                <div class="entity">VP Approval</div>
                             </div>
                             <div class="graph-row">
-                                <div class="entity">15 Days Annually</div>
+                                <div class="entity">VP Approval</div>
                                 <div class="relation">→ applies to →</div>
-                                <div class="entity">Full-time Employees</div>
+                                <div class="entity">$5K-$25K Expenses</div>
                             </div>
                         </div>
                         <div class="embedding-note">
-                            <strong>Why a knowledge graph?</strong> When you ask "How much vacation do full-time employees get?", the bot can traverse the graph: Full-time Employees → 15 Days → Vacation Policy, connecting the dots even if these facts appear in different parts of the document.
+                            <strong>Why a knowledge graph?</strong> When you ask "What approval is needed for $10K expenses?", the bot can traverse the graph: $5K-$25K Expenses → VP Approval → Budget Policy, connecting the dots even if these facts appear in different parts of the document.
                         </div>
                         <div class="tech-detail">
                             <strong>Storage:</strong> The knowledge graph, embeddings, and all indexed data are stored locally in the <code>kb/</code> directory as JSON files. You can back it up, version control it, or delete and rebuild it anytime.
@@ -296,29 +296,29 @@
 
             <div class="use-cases">
                 <div class="use-case scroll-fade">
-                    <div class="use-case-icon">💼</div>
+                    <div class="use-case-icon">💰</div>
                     <div class="use-case-content">
-                        <h3>HR & Finance</h3>
-                        <p class="use-case-question">"What's our policy on expense reimbursement?"</p>
-                        <p class="use-case-answer">Bot searches HR policy docs and returns the exact section with reimbursement limits and approval process.</p>
+                        <h3>Budget & Approvals</h3>
+                        <p class="use-case-question">"What's the approval process for capital expenditures over $50K?"</p>
+                        <p class="use-case-answer">Bot searches finance policy docs and returns the exact approval chain: Department Manager → VP → CFO → Board approval for amounts exceeding $100K.</p>
                     </div>
                 </div>
 
                 <div class="use-case scroll-fade delay-1">
-                    <div class="use-case-icon">🎧</div>
+                    <div class="use-case-icon">📊</div>
                     <div class="use-case-content">
-                        <h3>Customer Support</h3>
-                        <p class="use-case-question">"How do customers reset their password?"</p>
-                        <p class="use-case-answer">Bot pulls step-by-step instructions from support docs, including screenshots and links.</p>
+                        <h3>Financial Reporting</h3>
+                        <p class="use-case-question">"What are the quarterly reporting deadlines for each department?"</p>
+                        <p class="use-case-answer">Bot extracts reporting schedule from finance guidelines: Preliminary reports due 5 business days after quarter end, final reports due 15 days, board presentation on day 20.</p>
                     </div>
                 </div>
 
                 <div class="use-case scroll-fade delay-2">
-                    <div class="use-case-icon">⚙️</div>
+                    <div class="use-case-icon">🏦</div>
                     <div class="use-case-content">
-                        <h3>Engineering</h3>
-                        <p class="use-case-question">"What deployment options do we support?"</p>
-                        <p class="use-case-answer">Bot scans technical docs and summarizes deployment methods (Docker, K8s, traditional servers) with links to setup guides.</p>
+                        <h3>Vendor Payments</h3>
+                        <p class="use-case-question">"What are the payment terms for new vendors?"</p>
+                        <p class="use-case-answer">Bot scans procurement policy and summarizes: Net 30 for standard purchases, Net 60 for capital equipment, 50% deposit required for custom orders over $25K, all vendors need W-9 and insurance certificates.</p>
                     </div>
                 </div>
             </div>
