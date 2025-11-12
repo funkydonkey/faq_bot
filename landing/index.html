@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <title>FAQ Bot - Open Source Document Q&A System</title>
+    <meta name="description" content="Chat with your documents using AI. Open-source, runs locally, powered by GPT-4. Simple setup, supports DOCX and TXT files.">
+    <meta name="keywords" content="document qa, ai chatbot, open source, gpt-4, document search, knowledge base">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FAQ Bot - Document Q&A System">
+    <meta property="og:description" content="Open-source AI chatbot for your documents">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/funkydonkey/faq_bot">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FAQ Bot - Document Q&A">
+    <meta name="twitter:description" content="Open-source document Q&A system">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="logo-text">FAQ Bot</span>
+                </div>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#getting-started" class="nav-link">Getting Started</a></li>
+                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="https://github.com/funkydonkey/faq_bot" class="nav-link" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title fade-in-up">FAQ Bot</h1>
+                    <p class="hero-subtitle fade-in-up delay-1">Ask questions about your documents using natural language. Open-source, runs locally, powered by GPT-4.</p>
+
+                    <div class="hero-buttons fade-in-up delay-2">
+                        <a href="https://github.com/funkydonkey/faq_bot" class="btn btn-primary btn-large">View on GitHub</a>
+                        <a href="#getting-started" class="btn btn-secondary btn-large">Get Started</a>
+                    </div>
+
+                    <div class="hero-meta fade-in-up delay-3">
+                        <span class="meta-item">MIT License</span>
+                        <span class="meta-item">Python 3.12</span>
+                        <span class="meta-item">~$0.02 per query</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual fade-in-up delay-2">
+                    <div class="chat-mockup">
+                        <div class="chat-header">
+                            <div class="chat-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span class="chat-title">FAQ Bot</span>
+                        </div>
+                        <div class="chat-messages">
+                            <div class="message user-message" id="userMessage">
+                                What deployment options are available?
+                            </div>
+                            <div class="message bot-message" id="botMessage">
+                                <div class="typing-indicator" id="typingIndicator">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="answer" id="answer">
+                                    According to the documentation, you can deploy using Docker containers, Kubernetes, or traditional server hosting. The recommended approach is Docker for easier scaling and isolation.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background"></div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section class="getting-started" id="getting-started">
+        <div class="container">
+            <h2 class="section-title">Getting Started</h2>
+
+            <div class="steps-container">
+                <div class="step scroll-fade">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Install</h3>
+                    <div class="code-block-small">
+                        <code>git clone https://github.com/funkydonkey/faq_bot
+cd faq_bot
+python3.12 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt</code>
+                    </div>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step scroll-fade delay-1">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Configure</h3>
+                    <div class="code-block-small">
+                        <code>echo "OPENAI_API_KEY=your-key" > .env
+mkdir docs
+cp your-document.docx docs/
+python indexing.py</code>
+                    </div>
+                </div>
+
+                <div class="step-connector"></div>
+
+                <div class="step scroll-fade delay-2">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Run</h3>
+                    <div class="code-block-small">
+                        <code>python app.py
+# Open http://localhost:8080
+# Start asking questions!</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="getting-started-note scroll-fade delay-3">
+                <p><strong>Requirements:</strong> Python 3.12, OpenAI API key</p>
+                <p><strong>Supported formats:</strong> DOCX, DOC, TXT (PDF and Excel coming soon)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+
+            <div class="architecture-diagram scroll-fade">
+                <div class="arch-layer">
+                    <div class="arch-box">
+                        <h4>You</h4>
+                        <p>Ask a question</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box">
+                        <h4>OpenAI Orchestrator</h4>
+                        <p>Routes your query</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box">
+                        <h4>Clarification Agent</h4>
+                        <p>Extracts entities</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box">
+                        <h4>Search Agent</h4>
+                        <p>Finds answers</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-box">
+                        <h4>You</h4>
+                        <p>Get the answer</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-details scroll-fade">
+                <div class="detail-card">
+                    <h4>📚 Document Processing</h4>
+                    <p>Documents are split into chunks using LangChain's RecursiveCharacterTextSplitter (500 chars, 200 overlap). Each chunk is embedded using OpenAI's text-embedding-3-small and stored in a MiniRAG knowledge graph.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>🤖 Three-Layer Agents</h4>
+                    <p>The system uses an OpenAI Agents SDK orchestrator that coordinates a clarification agent (for entity extraction) and an AutoGen search agent (for document retrieval). This architecture handles ambiguous queries intelligently.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>💾 Conversation History</h4>
+                    <p>All conversations are stored in SQLite, so the bot remembers context across sessions. You can clear history anytime from the chat interface.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Features</h2>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Fast Setup</h3>
+                    <p class="feature-description">Clone the repo, install dependencies, add your API key, and you're ready to go. Takes about 5 minutes.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-1">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Local First</h3>
+                    <p class="feature-description">Your documents stay on your machine. Only questions and answers are sent to OpenAI's API for processing.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-2">
+                    <div class="feature-icon">💰</div>
+                    <h3 class="feature-title">Cost Efficient</h3>
+                    <p class="feature-description">Uses gpt-4o-mini for indexing ($0.11 per document) and gpt-4o for queries ($0.02 per question). Much cheaper than enterprise solutions.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-3">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Clean UI</h3>
+                    <p class="feature-description">Simple Gradio interface for chat (port 8080) and a separate admin interface for document management (port 8081).</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-4">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Hybrid Search</h3>
+                    <p class="feature-description">Combines LLM-based entity extraction with direct vector search fallback for maximum accuracy and recall.</p>
+                </div>
+
+                <div class="feature-card scroll-fade delay-5">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Multiple Formats</h3>
+                    <p class="feature-description">Supports DOCX, DOC, and TXT files out of the box. PDF and Excel support planned for future releases.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo-section" id="demo">
+        <div class="container">
+            <h2 class="section-title">Example Usage</h2>
+
+            <div class="demo-examples">
+                <div class="example-card scroll-fade">
+                    <div class="example-header">
+                        <span class="example-label">Finance Team</span>
+                    </div>
+                    <div class="example-content">
+                        <p class="example-question">❓ "What's our policy on expense reimbursement?"</p>
+                        <p class="example-answer">✅ Bot finds the answer in your HR policy document and cites the specific section.</p>
+                    </div>
+                </div>
+
+                <div class="example-card scroll-fade delay-1">
+                    <div class="example-header">
+                        <span class="example-label">Support Team</span>
+                    </div>
+                    <div class="example-content">
+                        <p class="example-question">❓ "How do customers reset their password?"</p>
+                        <p class="example-answer">✅ Bot pulls the exact steps from your internal documentation.</p>
+                    </div>
+                </div>
+
+                <div class="example-card scroll-fade delay-2">
+                    <div class="example-header">
+                        <span class="example-label">Engineering Team</span>
+                    </div>
+                    <div class="example-content">
+                        <p class="example-question">❓ "What deployment options do we support?"</p>
+                        <p class="example-answer">✅ Bot searches your technical docs and summarizes available options.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-note scroll-fade delay-3">
+                <p>💡 <strong>Tip:</strong> The more context you provide in your documents, the better the answers. Include FAQs, guides, and policies for best results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-stack-section" id="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Tech Stack</h2>
+
+            <div class="tech-grid scroll-fade">
+                <div class="tech-item">
+                    <div class="tech-icon">🐍</div>
+                    <span>Python 3.12</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🤖</div>
+                    <span>OpenAI GPT-4</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚡</div>
+                    <span>AutoGen v0.6</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🎨</div>
+                    <span>Gradio</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔍</div>
+                    <span>MiniRAG</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔗</div>
+                    <span>LangChain</span>
+                </div>
+            </div>
+
+            <div class="code-snippet scroll-fade">
+                <div class="code-header">
+                    <span class="code-title">Basic usage example</span>
+                    <button class="copy-button" id="copyButton">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <pre><code id="codeBlock">from openai_agent import OpenAIAgentRunner
+
+# Initialize with your document
+agent = OpenAIAgentRunner(docx_path="docs/policy.docx")
+
+# Ask a question
+answer = agent.process_query("What is our vacation policy?")
+print(answer)</code></pre>
+            </div>
+
+            <div class="architecture-note scroll-fade">
+                <h3>Cost Optimization</h3>
+                <p>The system uses <strong>gpt-4o-mini</strong> for indexing (94% cheaper than gpt-4o) and <strong>gpt-4o</strong> for runtime queries. Embeddings use <strong>text-embedding-3-small</strong> (6.5x cheaper than large). See <code>MODEL_OPTIMIZATION.md</code> for full cost breakdown.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost Calculator -->
+    <section class="cost-section" id="cost">
+        <div class="container">
+            <h2 class="section-title">Estimate Your Costs</h2>
+
+            <div class="cost-calculator scroll-fade">
+                <p class="calculator-intro">FAQ Bot is free and open-source. You only pay for OpenAI API usage.</p>
+
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="documents">Documents to index: <span id="docCount">10</span></label>
+                        <input type="range" id="documents" min="1" max="100" value="10" class="slider">
+                    </div>
+                    <div class="input-group">
+                        <label for="questions">Questions per month: <span id="questionCount">1000</span></label>
+                        <input type="range" id="questions" min="100" max="10000" value="1000" step="100" class="slider">
+                    </div>
+                </div>
+
+                <div class="calculator-result">
+                    <div class="cost-breakdown">
+                        <div class="cost-line">
+                            <span>Indexing (one-time):</span>
+                            <span id="indexingCost">$1.10</span>
+                        </div>
+                        <div class="cost-line">
+                            <span>Monthly queries:</span>
+                            <span id="queryCost">$20.00</span>
+                        </div>
+                        <div class="cost-line total">
+                            <span>Total first month:</span>
+                            <span class="cost-amount" id="costResult">$21.10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="calculator-note">💡 After indexing, you only pay for queries. Most teams spend $10-30/month.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title">FAQ</h2>
+
+            <div class="faq-container">
+                <div class="faq-item scroll-fade">
+                    <button class="faq-question">
+                        <span>Do I need programming experience?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Basic command line skills are helpful for setup, but you don't need to write code. Just follow the installation instructions and you're good to go.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-1">
+                    <button class="faq-question">
+                        <span>Where is my data stored?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>All documents and the knowledge graph stay on your local machine. Only your questions and the bot's answers pass through OpenAI's API. Your documents never leave your computer.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-2">
+                    <button class="faq-question">
+                        <span>How accurate are the answers?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The bot uses GPT-4 with a three-layer agent architecture. Accuracy depends on your document quality and how specific your questions are. In testing, it handles ambiguous queries well and tells you when it doesn't know something.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-3">
+                    <button class="faq-question">
+                        <span>Can I customize the system?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! It's open-source (MIT license). You can modify the agent prompts, change the UI, add new document formats, or integrate it into your own applications. Check the <code>CLAUDE.md</code> file for architecture details.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-4">
+                    <button class="faq-question">
+                        <span>What if I don't have an OpenAI API key?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You'll need an OpenAI API key to use this system. You can sign up at <a href="https://platform.openai.com" target="_blank">platform.openai.com</a>. New accounts usually get free credits to start.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-fade delay-5">
+                    <button class="faq-question">
+                        <span>How do I contribute?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Contributions are welcome! Open an issue or pull request on <a href="https://github.com/funkydonkey/faq_bot" target="_blank">GitHub</a>. We're especially interested in: PDF support, better error handling, UI improvements, and documentation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 class="footer-title">Documentation</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/funkydonkey/faq_bot#readme">README</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/CLAUDE.md">Architecture Guide</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/INDEXING_GUIDE.md">Indexing Guide</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/MODEL_OPTIMIZATION.md">Cost Optimization</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Project</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/funkydonkey/faq_bot">GitHub Repository</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/issues">Report Issues</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/releases">Releases</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/blob/main/LICENSE">License (MIT)</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Community</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/funkydonkey/faq_bot/discussions">Discussions</a></li>
+                        <li><a href="https://github.com/funkydonkey/faq_bot/pulls">Pull Requests</a></li>
+                        <li><a href="mailto:a.molchansky@gmail.com">Email</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Built With</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://www.python.org/">Python 3.12</a></li>
+                        <li><a href="https://platform.openai.com/">OpenAI API</a></li>
+                        <li><a href="https://microsoft.github.io/autogen/">AutoGen</a></li>
+                        <li><a href="https://www.gradio.app/">Gradio</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 FAQ Bot. Open-source project under MIT License.</p>
+                <div class="footer-social">
+                    <a href="https://github.com/funkydonkey/faq_bot" aria-label="GitHub" target="_blank">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:a.molchansky@gmail.com" aria-label="Email">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
