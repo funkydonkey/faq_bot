@@ -159,10 +159,21 @@
                 <div class="indexing-step scroll-fade">
                     <div class="indexing-number">1</div>
                     <div class="indexing-content">
-                        <h3>Text Extraction</h3>
-                        <p>Your DOCX, DOC, or TXT files are read and all text is extracted. Tables, paragraphs, and formatting are converted into plain text.</p>
+                        <h3>Document Processing</h3>
+                        <p>Your documents (DOCX, DOC, or TXT) are read and parsed. The system extracts all text content, including paragraphs and tables, while removing formatting. Long documents are automatically split into smaller chunks (500 characters each with 200-character overlap) to ensure context isn't lost between sections.</p>
                         <div class="indexing-example">
-                            <span class="example-label">Input:</span> <code>HR_Policy.docx</code> → <span class="example-label">Output:</span> "Vacation policy: Employees receive 15 days..."
+                            <div class="example-row">
+                                <span class="example-label">Input:</span> <code>HR_Policy.docx</code> (2MB, 50 pages)
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Output:</span> ~250 text chunks ready for processing
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Example chunk:</span> "Vacation policy: Full-time employees receive 15 days of paid vacation per year..."
+                            </div>
+                        </div>
+                        <div class="tech-detail">
+                            <strong>Technical:</strong> Uses <code>python-docx</code> for Word files and <code>RecursiveCharacterTextSplitter</code> from LangChain to intelligently split text at paragraph and sentence boundaries.
                         </div>
                     </div>
                 </div>
@@ -170,14 +181,21 @@
                 <div class="indexing-step scroll-fade delay-1">
                     <div class="indexing-number">2</div>
                     <div class="indexing-content">
-                        <h3>Text Chunking</h3>
-                        <p>Long documents are split into smaller chunks (500 characters each) with 200-character overlap. This ensures context isn't lost between chunks.</p>
-                        <div class="indexing-visual">
-                            <div class="chunk">Chunk 1</div>
-                            <div class="overlap">Overlap 200 chars</div>
-                            <div class="chunk">Chunk 2</div>
-                            <div class="overlap">Overlap 200 chars</div>
-                            <div class="chunk">Chunk 3</div>
+                        <h3>Vector Embeddings</h3>
+                        <p>Each text chunk is converted into a mathematical representation called a "vector embedding" - essentially a list of 1,536 numbers that captures the semantic meaning of the text. OpenAI's <code>text-embedding-3-small</code> model generates these embeddings.</p>
+                        <div class="indexing-example">
+                            <div class="example-row">
+                                <span class="example-label">Text chunk:</span> "vacation policy for employees"
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Embedding:</span> <code>[0.23, -0.45, 0.12, 0.67, -0.89, ...]</code> (1,536 numbers total)
+                            </div>
+                        </div>
+                        <div class="embedding-note">
+                            <strong>Why embeddings?</strong> Computers can't understand text directly, but they can compare numbers. Similar concepts get similar vector values, so the bot can find "time off" even if you search for "vacation". This is how semantic search works - it understands meaning, not just keywords.
+                        </div>
+                        <div class="tech-detail">
+                            <strong>Cost:</strong> At $0.02 per 1M tokens, embedding a 2MB document costs ~$0.0025. Super cheap!
                         </div>
                     </div>
                 </div>
@@ -185,28 +203,30 @@
                 <div class="indexing-step scroll-fade delay-2">
                     <div class="indexing-number">3</div>
                     <div class="indexing-content">
-                        <h3>Vector Embeddings</h3>
-                        <p>Each chunk is converted into a vector (a list of 1,536 numbers) using OpenAI's embedding model. Similar chunks get similar vectors.</p>
-                        <div class="indexing-example">
-                            <span class="example-label">Text:</span> "vacation policy" → <span class="example-label">Vector:</span> <code>[0.23, -0.45, 0.12, ...]</code>
+                        <h3>Knowledge Graph Construction</h3>
+                        <p>Here's where the magic happens: GPT-4o-mini analyzes each chunk and extracts entities (people, departments, policies, dates) and their relationships. This creates a structured knowledge graph that connects related information across your entire document collection.</p>
+                        <div class="graph-example">
+                            <div class="graph-row">
+                                <div class="entity">HR Department</div>
+                                <div class="relation">→ manages →</div>
+                                <div class="entity">Vacation Policy</div>
+                            </div>
+                            <div class="graph-row">
+                                <div class="entity">Vacation Policy</div>
+                                <div class="relation">→ grants →</div>
+                                <div class="entity">15 Days Annually</div>
+                            </div>
+                            <div class="graph-row">
+                                <div class="entity">15 Days Annually</div>
+                                <div class="relation">→ applies to →</div>
+                                <div class="entity">Full-time Employees</div>
+                            </div>
                         </div>
                         <div class="embedding-note">
-                            <strong>Why vectors?</strong> Computers can't understand text, but they can compare numbers. Vectors let the bot find similar concepts even if the words are different.
+                            <strong>Why a knowledge graph?</strong> When you ask "How much vacation do full-time employees get?", the bot can traverse the graph: Full-time Employees → 15 Days → Vacation Policy, connecting the dots even if these facts appear in different parts of the document.
                         </div>
-                    </div>
-                </div>
-
-                <div class="indexing-step scroll-fade delay-3">
-                    <div class="indexing-number">4</div>
-                    <div class="indexing-content">
-                        <h3>Knowledge Graph</h3>
-                        <p>GPT-4o-mini analyzes chunks and extracts key entities (people, places, concepts) and their relationships. This creates a knowledge graph stored in <code>kb/</code> directory.</p>
-                        <div class="graph-example">
-                            <div class="entity">Vacation Policy</div>
-                            <div class="relation">→ grants →</div>
-                            <div class="entity">15 Days</div>
-                            <div class="relation">→ applies to →</div>
-                            <div class="entity">Full-time Employees</div>
+                        <div class="tech-detail">
+                            <strong>Storage:</strong> The knowledge graph, embeddings, and all indexed data are stored locally in the <code>kb/</code> directory as JSON files. You can back it up, version control it, or delete and rebuild it anytime.
                         </div>
                     </div>
                 </div>
