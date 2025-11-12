@@ -45,9 +45,9 @@
                 </button>
 
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="#getting-started" class="nav-link">Getting Started</a></li>
                     <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
                     <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#demo" class="nav-link">Examples</a></li>
                     <li><a href="#faq" class="nav-link">FAQ</a></li>
                     <li><a href="https://github.com/funkydonkey/faq_bot" class="nav-link" target="_blank">GitHub</a></li>
                 </ul>
@@ -65,7 +65,7 @@
 
                     <div class="hero-buttons fade-in-up delay-2">
                         <a href="https://github.com/funkydonkey/faq_bot" class="btn btn-primary btn-large">View on GitHub</a>
-                        <a href="#getting-started" class="btn btn-secondary btn-large">Get Started</a>
+                        <a href="https://github.com/funkydonkey/faq_bot#readme" class="btn btn-secondary btn-large">Documentation</a>
                     </div>
 
                     <div class="hero-meta fade-in-up delay-3">
@@ -107,103 +107,42 @@
         <div class="hero-background"></div>
     </section>
 
-    <!-- Getting Started Section -->
-    <section class="getting-started" id="getting-started">
-        <div class="container">
-            <h2 class="section-title">Getting Started</h2>
-
-            <div class="steps-container">
-                <div class="step scroll-fade">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Install</h3>
-                    <div class="code-block-small">
-                        <code>git clone https://github.com/funkydonkey/faq_bot
-cd faq_bot
-python3.12 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt</code>
-                    </div>
-                </div>
-
-                <div class="step-connector"></div>
-
-                <div class="step scroll-fade delay-1">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Configure</h3>
-                    <div class="code-block-small">
-                        <code>echo "OPENAI_API_KEY=your-key" > .env
-mkdir docs
-cp your-document.docx docs/
-python indexing.py</code>
-                    </div>
-                </div>
-
-                <div class="step-connector"></div>
-
-                <div class="step scroll-fade delay-2">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Run</h3>
-                    <div class="code-block-small">
-                        <code>python app.py
-# Open http://localhost:8080
-# Start asking questions!</code>
-                    </div>
-                </div>
-            </div>
-
-            <div class="getting-started-note scroll-fade delay-3">
-                <p><strong>Requirements:</strong> Python 3.12, OpenAI API key</p>
-                <p><strong>Supported formats:</strong> DOCX, DOC, TXT (PDF and Excel coming soon)</p>
-            </div>
-        </div>
-    </section>
-
     <!-- How It Works Section -->
     <section class="how-it-works" id="how-it-works">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
 
-            <div class="architecture-diagram scroll-fade">
-                <div class="arch-layer">
-                    <div class="arch-box">
-                        <h4>You</h4>
-                        <p>Ask a question</p>
-                    </div>
-                    <div class="arch-arrow">→</div>
-                    <div class="arch-box">
-                        <h4>OpenAI Orchestrator</h4>
-                        <p>Routes your query</p>
-                    </div>
-                    <div class="arch-arrow">→</div>
-                    <div class="arch-box">
-                        <h4>Clarification Agent</h4>
-                        <p>Extracts entities</p>
-                    </div>
-                    <div class="arch-arrow">→</div>
-                    <div class="arch-box">
-                        <h4>Search Agent</h4>
-                        <p>Finds answers</p>
-                    </div>
-                    <div class="arch-arrow">→</div>
-                    <div class="arch-box">
-                        <h4>You</h4>
-                        <p>Get the answer</p>
+            <div class="workflow-steps">
+                <div class="workflow-step scroll-fade">
+                    <div class="step-icon">📚</div>
+                    <div class="step-content">
+                        <h3>1. Upload Documents</h3>
+                        <p>Drop your DOCX, DOC, or TXT files into the <code>docs/</code> folder. The system indexes them using LangChain's text splitter (500 char chunks, 200 overlap) and creates embeddings with OpenAI's text-embedding-3-small.</p>
                     </div>
                 </div>
-            </div>
 
-            <div class="tech-details scroll-fade">
-                <div class="detail-card">
-                    <h4>📚 Document Processing</h4>
-                    <p>Documents are split into chunks using LangChain's RecursiveCharacterTextSplitter (500 chars, 200 overlap). Each chunk is embedded using OpenAI's text-embedding-3-small and stored in a MiniRAG knowledge graph.</p>
+                <div class="workflow-step scroll-fade delay-1">
+                    <div class="step-icon">❓</div>
+                    <div class="step-content">
+                        <h3>2. Ask Questions</h3>
+                        <p>Type your question in natural language. The <strong>OpenAI Orchestrator</strong> (GPT-4o) receives it and decides whether to clarify entities first or search directly.</p>
+                    </div>
                 </div>
-                <div class="detail-card">
-                    <h4>🤖 Three-Layer Agents</h4>
-                    <p>The system uses an OpenAI Agents SDK orchestrator that coordinates a clarification agent (for entity extraction) and an AutoGen search agent (for document retrieval). This architecture handles ambiguous queries intelligently.</p>
+
+                <div class="workflow-step scroll-fade delay-2">
+                    <div class="step-icon">🔍</div>
+                    <div class="step-content">
+                        <h3>3. Smart Processing</h3>
+                        <p>The <strong>Clarification Agent</strong> extracts key entities using hybrid search (LLM + vector fallback). Then the <strong>AutoGen Search Agent</strong> retrieves relevant chunks from your documents.</p>
+                    </div>
                 </div>
-                <div class="detail-card">
-                    <h4>💾 Conversation History</h4>
-                    <p>All conversations are stored in SQLite, so the bot remembers context across sessions. You can clear history anytime from the chat interface.</p>
+
+                <div class="workflow-step scroll-fade delay-3">
+                    <div class="step-icon">✅</div>
+                    <div class="step-content">
+                        <h3>4. Get Answers</h3>
+                        <p>GPT-4o synthesizes the information and gives you a clear answer. All conversations are stored in SQLite, so the bot remembers context across sessions.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -257,42 +196,35 @@ python indexing.py</code>
     <!-- Demo Section -->
     <section class="demo-section" id="demo">
         <div class="container">
-            <h2 class="section-title">Example Usage</h2>
+            <h2 class="section-title">Use Cases</h2>
 
-            <div class="demo-examples">
-                <div class="example-card scroll-fade">
-                    <div class="example-header">
-                        <span class="example-label">Finance Team</span>
-                    </div>
-                    <div class="example-content">
-                        <p class="example-question">❓ "What's our policy on expense reimbursement?"</p>
-                        <p class="example-answer">✅ Bot finds the answer in your HR policy document and cites the specific section.</p>
+            <div class="use-cases">
+                <div class="use-case scroll-fade">
+                    <div class="use-case-icon">💼</div>
+                    <div class="use-case-content">
+                        <h3>HR & Finance</h3>
+                        <p class="use-case-question">"What's our policy on expense reimbursement?"</p>
+                        <p class="use-case-answer">Bot searches HR policy docs and returns the exact section with reimbursement limits and approval process.</p>
                     </div>
                 </div>
 
-                <div class="example-card scroll-fade delay-1">
-                    <div class="example-header">
-                        <span class="example-label">Support Team</span>
-                    </div>
-                    <div class="example-content">
-                        <p class="example-question">❓ "How do customers reset their password?"</p>
-                        <p class="example-answer">✅ Bot pulls the exact steps from your internal documentation.</p>
+                <div class="use-case scroll-fade delay-1">
+                    <div class="use-case-icon">🎧</div>
+                    <div class="use-case-content">
+                        <h3>Customer Support</h3>
+                        <p class="use-case-question">"How do customers reset their password?"</p>
+                        <p class="use-case-answer">Bot pulls step-by-step instructions from support docs, including screenshots and links.</p>
                     </div>
                 </div>
 
-                <div class="example-card scroll-fade delay-2">
-                    <div class="example-header">
-                        <span class="example-label">Engineering Team</span>
-                    </div>
-                    <div class="example-content">
-                        <p class="example-question">❓ "What deployment options do we support?"</p>
-                        <p class="example-answer">✅ Bot searches your technical docs and summarizes available options.</p>
+                <div class="use-case scroll-fade delay-2">
+                    <div class="use-case-icon">⚙️</div>
+                    <div class="use-case-content">
+                        <h3>Engineering</h3>
+                        <p class="use-case-question">"What deployment options do we support?"</p>
+                        <p class="use-case-answer">Bot scans technical docs and summarizes deployment methods (Docker, K8s, traditional servers) with links to setup guides.</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="demo-note scroll-fade delay-3">
-                <p>💡 <strong>Tip:</strong> The more context you provide in your documents, the better the answers. Include FAQs, guides, and policies for best results.</p>
             </div>
         </div>
     </section>
@@ -302,28 +234,28 @@ python indexing.py</code>
         <div class="container">
             <h2 class="section-title">Tech Stack</h2>
 
-            <div class="tech-grid scroll-fade">
-                <div class="tech-item">
+            <div class="tech-logos scroll-fade">
+                <div class="tech-logo">
                     <div class="tech-icon">🐍</div>
                     <span>Python 3.12</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-logo">
                     <div class="tech-icon">🤖</div>
                     <span>OpenAI GPT-4</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-logo">
                     <div class="tech-icon">⚡</div>
                     <span>AutoGen v0.6</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-logo">
                     <div class="tech-icon">🎨</div>
                     <span>Gradio</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-logo">
                     <div class="tech-icon">🔍</div>
                     <span>MiniRAG</span>
                 </div>
-                <div class="tech-item">
+                <div class="tech-logo">
                     <div class="tech-icon">🔗</div>
                     <span>LangChain</span>
                 </div>
