@@ -2,6 +2,18 @@
 
 A Gradio-based chat application that answers questions about documents using a three-layer agent architecture: OpenAI orchestrator, clarification agent with hybrid entity search, and AutoGen document search with MiniRAG knowledge graph retrieval.
 
+## 📚 Documentation
+
+### Getting Started
+- **[Installation Guide](INSTALLATION_GUIDE.md)** ⭐ Complete step-by-step setup guide for beginners
+- **[Quick Start](QUICK_START.md)** - Quick reference for common tasks
+- **[Troubleshooting](TROUBLESHOOTING.md)** - Solutions to common problems
+
+### Understanding the System
+- **[Architecture](ARCHITECTURE.md)** - Visual guide to system design and data flow
+- **[Project Structure](PROJECT_STRUCTURE.md)** - Clean directory organization
+- **[Restructure Summary](RESTRUCTURE_SUMMARY.md)** - Details of recent project reorganization
+
 ## Features
 
 - 📄 **Multi-format support**: DOCX, DOC, TXT files from `docs/` folder
@@ -50,7 +62,7 @@ cp your-faq.txt docs/
 
 6. Index your documents (optional - creates knowledge graph):
 ```bash
-python indexing.py
+python -m src.indexing
 ```
 
 ## Usage
@@ -61,7 +73,7 @@ The FAQ Bot consists of **two separate applications**:
 
 ```bash
 source venv/bin/activate
-python app.py
+python run_app.py
 ```
 
 The chat interface will start at **http://localhost:8080**
@@ -72,7 +84,7 @@ This is the main user-facing interface for asking questions about documents.
 
 ```bash
 source venv/bin/activate
-python config_app.py
+python run_config.py
 ```
 
 The configuration interface will start at **http://localhost:8081**
@@ -93,7 +105,7 @@ This interface provides:
 
 **Option 2: Command Line**
 ```bash
-python indexing.py
+python -m src.indexing
 ```
 
 Supported formats: DOCX, DOC, TXT
@@ -103,7 +115,7 @@ Supported formats: DOCX, DOC, TXT
 See what files would be indexed without running full indexing:
 
 ```bash
-python demo_indexing.py
+python scripts/demo_indexing.py
 ```
 
 ### Run MiniRAG Test
@@ -111,30 +123,39 @@ python demo_indexing.py
 To test the MiniRAG knowledge graph query:
 
 ```bash
-python test.py
+python tests/test.py
 ```
 
 ## Project Structure
 
 ```
 faq_bot/
-├── app.py                    # Main chat application (port 8080)
-├── config_app.py             # Admin config application (port 8081)
-├── config_ui.py              # Config UI components
-├── openai_agent.py           # OpenAI orchestrator agent
-├── clarification_agent.py    # Entity extraction agent (hybrid search)
-├── autogen_agent.py          # AutoGen document search agent
-├── docx_reader.py            # DOCX file reader
-├── indexing.py               # Multi-format document indexing (DOCX, DOC, TXT)
-├── demo_indexing.py          # Preview files to be indexed
-├── graph.py                  # Knowledge graph visualization
-├── test.py                   # MiniRAG test script
-├── requirements.txt          # Python dependencies
+├── run_app.py                # Entry point for chat application
+├── run_config.py             # Entry point for config application
+├── src/                      # Source code
+│   ├── __init__.py           # Package initialization
+│   ├── app.py                # Main chat application (port 8080)
+│   ├── config_app.py         # Admin config application (port 8081)
+│   ├── config_ui.py          # Config UI components
+│   ├── openai_agent.py       # OpenAI orchestrator agent
+│   ├── clarification_agent.py # Entity extraction agent (hybrid search)
+│   ├── autogen_agent.py      # AutoGen document search agent
+│   ├── docx_reader.py        # DOCX file reader
+│   └── indexing.py           # Multi-format document indexing (DOCX, DOC, TXT)
+├── scripts/                  # Utility scripts
+│   ├── demo_indexing.py      # Preview files to be indexed
+│   ├── graph.py              # Knowledge graph visualization
+│   ├── start_both.sh         # Start both applications
+│   └── stop_both.sh          # Stop both applications
+├── tests/                    # Test scripts
+│   ├── test.py               # MiniRAG test script
+│   ├── test_hybrid.py        # Hybrid search tests
+│   └── test_threshold.py     # Vector threshold tests
 ├── docs/                     # Place your documents here (DOCX, DOC, TXT)
 ├── kb/                       # MiniRAG knowledge base (auto-generated)
-├── CONFIG_GUI_GUIDE.md       # Configuration interface guide
-├── INDEXING_GUIDE.md         # Complete indexing documentation
-├── MODEL_OPTIMIZATION.md     # Cost analysis and recommendations
+├── requirements.txt          # Python dependencies
+├── CLAUDE.md                 # Claude Code instructions
+├── README.md                 # This file
 └── .env                      # API keys (not in git)
 ```
 
@@ -169,10 +190,8 @@ python --version  # Should show 3.12.x
 ```
 
 ### AutoGen Agent Issues
-If agents talk to themselves, check `autogen_agent.py:57`:
-```python
-max_consecutive_auto_reply=0  # Should be 0, not 1
-```
+AutoGen v0.6 uses the new `on_messages()` API which automatically handles single responses.
+If you experience issues, check the agent configuration in `src/autogen_agent.py`.
 
 ### OpenAI API Errors
 - Verify your API key in `.env`
@@ -180,7 +199,7 @@ max_consecutive_auto_reply=0  # Should be 0, not 1
 
 ### Empty Entity Results
 If queries return no entities:
-- Threshold is set to 0.0 in `clarification_agent.py:42-44`
+- Threshold is set to 0.0 in `src/clarification_agent.py:43`
 - Hybrid fallback automatically engages when mini mode returns empty
 - Check that documents are properly indexed in `kb/` directory
 

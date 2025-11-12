@@ -25,7 +25,7 @@ echo ""
 
 # Start chat application
 echo "📱 Starting Chat Application (port 8080)..."
-python app.py > logs/chat.log 2>&1 &
+python run_app.py > logs/chat.log 2>&1 &
 CHAT_PID=$!
 echo "   PID: $CHAT_PID"
 
@@ -34,7 +34,7 @@ sleep 2
 
 # Start config application
 echo "⚙️  Starting Config Application (port 8081)..."
-python config_app.py > logs/config.log 2>&1 &
+python run_config.py > logs/config.log 2>&1 &
 CONFIG_PID=$!
 echo "   PID: $CONFIG_PID"
 

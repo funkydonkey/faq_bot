@@ -5,8 +5,10 @@ import subprocess
 import gradio as gr
 from pathlib import Path
 
-
-DOCS_DIR = "docs"
+# Get project root directory (parent of src/)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DOCS_DIR = os.path.join(PROJECT_ROOT, "docs")
+INDEXING_SCRIPT = os.path.join(PROJECT_ROOT, "src", "indexing.py")
 
 
 def get_existing_documents():
@@ -103,12 +105,13 @@ def run_indexing():
         if not files:
             return "❌ No documents found in docs folder. Please upload documents first."
 
-        # Run indexing.py
+        # Run indexing.py from src/ directory
         result = subprocess.run(
-            ["python", "indexing.py"],
+            ["python", INDEXING_SCRIPT],
             capture_output=True,
             text=True,
-            timeout=300  # 5 minute timeout
+            timeout=300,  # 5 minute timeout
+            cwd=PROJECT_ROOT  # Run from project root
         )
 
         if result.returncode == 0:

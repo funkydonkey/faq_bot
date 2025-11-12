@@ -322,5 +322,14 @@
     "content_length": 362,
     "created_at": "2025-11-11T23:05:16.866182",
     "updated_at": "2025-11-11T23:05:17.563543"
+  },
+  "doc-795a5cba04e6037b811f51c0df0c1ef7": {
+    "status": "processed",
+    "chunks_count": 1,
+    "content": "Test Document for Indexing\n\nThis is a test plain text document to demonstrate the multi-format indexing capability.\n\nCommon Issues:\n1. Network connectivity problems\n2. Authentication failures\n3. Timeout errors\n\nSolutions:\n- Check your internet connection\n- Verify your credentials\n- Increase timeout settings\n\nFor more information, contact support@example.com",
+    "content_summary": "Test Document for Indexing\n\nThis is a test plain text document to demonstrate the multi-format index...",
+    "content_length": 359,
+    "created_at": "2025-11-11T23:06:53.005482",
+    "updated_at": "2025-11-11T23:06:53.517432"
   }
 }

@@ -3,9 +3,9 @@ import os
 from typing import Optional, List, Dict
 import asyncio
 from agents import Agent, Runner, trace, function_tool, SQLiteSession
-from docx_reader import DocxReader
-from autogen_agent import DocumentSearchAgent
-from clarification_agent import clarification_agent, retrieve_clarification_context
+from .docx_reader import DocxReader
+from .autogen_agent import DocumentSearchAgent
+from .clarification_agent import clarification_agent, retrieve_clarification_context
 
 @function_tool
 async def run_clarification_agent(user_input: str) -> str:

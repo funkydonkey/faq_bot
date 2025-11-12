@@ -1,13 +1,21 @@
+import os
+import sys
+import glob
+from dotenv import load_dotenv
+
+# Add paths for imports
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'MiniRAG'))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from MiniRAG.minirag import MiniRAG
 from MiniRAG.minirag.utils import EmbeddingFunc
 from lightrag.llm.openai import gpt_4o_complete, gpt_4o_mini_complete, openai_embed
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from docx_reader import Document
-import os
-import glob
-from dotenv import load_dotenv
+from .docx_reader import Document
 
-load_dotenv()
+# Load environment variables from project root
+load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
 # Function to extract text from different file types
 def extract_text_from_file(path):
@@ -45,7 +53,7 @@ def extract_text_from_file(path):
         raise ValueError(f"Unsupported file type: {file_ext}")
 
 
-def index_all_documents(docs_dir="./docs", kb_dir="./kb", clear_existing=False):
+def index_all_documents(docs_dir=None, kb_dir=None, clear_existing=False):
     """
     Index all documents (DOCX, DOC, TXT) from docs_dir into the knowledge base.
 
@@ -54,6 +62,12 @@ def index_all_documents(docs_dir="./docs", kb_dir="./kb", clear_existing=False):
         kb_dir: Knowledge base directory
         clear_existing: If True, clear existing knowledge base before indexing
     """
+    # Set default paths relative to project root
+    if docs_dir is None:
+        docs_dir = os.path.join(PROJECT_ROOT, "docs")
+    if kb_dir is None:
+        kb_dir = os.path.join(PROJECT_ROOT, "kb")
+
     # Initialize text splitter
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,

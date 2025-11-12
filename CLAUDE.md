@@ -22,21 +22,25 @@ pip install -r requirements.txt
 # Configure environment
 echo "OPENAI_API_KEY=your-key-here" > .env
 
-# Run the Gradio app
-python app.py
+# Run the chat application (end users)
+python run_app.py
 # Access at http://localhost:8080
 
+# Run the config application (admins)
+python run_config.py
+# Access at http://localhost:8081
+
 # Test MiniRAG knowledge graph query
-python test.py
+python tests/test.py
 
 # Index all documents from docs/ (DOCX, DOC, TXT)
-python indexing.py
+python -m src.indexing
 
 # Preview files to be indexed
-python demo_indexing.py
+python scripts/demo_indexing.py
 
 # Visualize knowledge graph
-python graph.py
+python scripts/graph.py
 ```
 
 ## Architecture
@@ -70,24 +74,31 @@ python graph.py
 
 ### Key Components
 
-**Core Application:**
-- **app.py**: Gradio interface with chat UI, auto-loads first DOCX from `docs/` on startup
-- **openai_agent.py**: `OpenAIAgentRunner` class - manages orchestrator, SQLite session, and conversation history
-- **clarification_agent.py**: Entity extraction agent with hybrid search (mini mode + fallback)
-- **autogen_agent.py**: `DocumentSearchAgent` class - focused document search tool using AutoGen v0.6
+**Entry Points:**
+- **run_app.py**: Entry point for chat application (port 8080)
+- **run_config.py**: Entry point for config application (port 8081)
 
-**Document Processing:**
-- **docx_reader.py**: `DocxReader` class - extracts text from DOCX including tables
-- **indexing.py**: Multi-format document indexing (DOCX, DOC, TXT) with cost-efficient gpt-4o-mini
+**Core Application (src/):**
+- **src/app.py**: Gradio interface with chat UI, auto-loads first DOCX from `docs/` on startup
+- **src/config_app.py**: Standalone admin configuration application
+- **src/config_ui.py**: Configuration UI for document management and indexing
+- **src/openai_agent.py**: `OpenAIAgentRunner` class - manages orchestrator, SQLite session, and conversation history
+- **src/clarification_agent.py**: Entity extraction agent with hybrid search (mini mode + fallback)
+- **src/autogen_agent.py**: `DocumentSearchAgent` class - focused document search tool using AutoGen v0.6
+- **src/docx_reader.py**: `DocxReader` class - extracts text from DOCX including tables
+- **src/indexing.py**: Multi-format document indexing (DOCX, DOC, TXT) with cost-efficient gpt-4o-mini
 
-**Utilities & Testing:**
-- **demo_indexing.py**: Preview files to be indexed without running full indexing
-- **graph.py**: Knowledge graph visualization using NetworkX
-- **test.py**: Standalone MiniRAG query test
-- **test_hybrid.py**: Hybrid search strategy testing
-- **test_threshold.py**: Vector similarity threshold testing
-- **debug_mini.py**: Debug tool for mini mode entity extraction
-- **setup_fix.sh**: Setup helper script for environment configuration
+**Scripts (scripts/):**
+- **scripts/demo_indexing.py**: Preview files to be indexed without running full indexing
+- **scripts/graph.py**: Knowledge graph visualization using NetworkX
+- **scripts/start_both.sh**: Start both applications (chat and config)
+- **scripts/stop_both.sh**: Stop both applications
+
+**Tests (tests/):**
+- **tests/test.py**: Standalone MiniRAG query test
+- **tests/test_hybrid.py**: Hybrid search strategy testing
+- **tests/test_threshold.py**: Vector similarity threshold testing
+- **tests/debug_mini.py**: Debug tool for mini mode entity extraction
 
 **Data Storage:**
 - **conversation_history.db**: SQLite database for persistent conversation sessions
@@ -147,8 +158,9 @@ logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
 
 ## Port Configuration
 
-- **Current**: Port 8080 (see `app.py:197`)
-- Server binds to `0.0.0.0` for external access
+- **Chat Application**: Port 8080 (see `src/app.py:205`)
+- **Config Application**: Port 8081 (see `src/config_app.py:57`)
+- Both servers bind to `0.0.0.0` for external access
 
 ## Documentation
 
@@ -181,16 +193,17 @@ logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
 ## File References
 
 When debugging or modifying:
-- **Orchestrator agent**: `openai_agent.py:17-67` (creates agent with both tools)
-- **Clarification agent tool**: `openai_agent.py:10-14` (function_tool wrapper)
-- **Clarification logic**: `clarification_agent.py:76-118` (hybrid search with fallback)
-- **Document search tool**: `openai_agent.py:30-41` (function_tool wrapper for AutoGen)
-- **AutoGen search logic**: `autogen_agent.py:56-82` (on_messages method)
-- **SQLite session**: `openai_agent.py:107-110` (conversation persistence)
-- **Event loop handling**: `openai_agent.py:149-162` (sync wrapper for async operations)
-- **Gradio chat interface**: `app.py:88-181` (UI components and callbacks)
-- **Document loading**: `app.py:24-49` (initialize_agent function)
-- **Trace context**: `openai_agent.py:124` (observability wrapper)
-- **Vector threshold**: `clarification_agent.py:43` (cosine_better_than_threshold=0.0)
-- **Hybrid fallback**: `clarification_agent.py:113-116` (direct entity search)
-- **Multi-format indexing**: `indexing.py:13-46` (DOCX, DOC, TXT support)
+- **Orchestrator agent**: `src/openai_agent.py:17-67` (creates agent with both tools)
+- **Clarification agent tool**: `src/openai_agent.py:10-14` (function_tool wrapper)
+- **Clarification logic**: `src/clarification_agent.py:76-118` (hybrid search with fallback)
+- **Document search tool**: `src/openai_agent.py:30-41` (function_tool wrapper for AutoGen)
+- **AutoGen search logic**: `src/autogen_agent.py:56-82` (on_messages method)
+- **SQLite session**: `src/openai_agent.py:107-110` (conversation persistence)
+- **Event loop handling**: `src/openai_agent.py:149-162` (sync wrapper for async operations)
+- **Gradio chat interface**: `src/app.py:88-181` (UI components and callbacks)
+- **Document loading**: `src/app.py:24-49` (initialize_agent function)
+- **Trace context**: `src/openai_agent.py:124` (observability wrapper)
+- **Vector threshold**: `src/clarification_agent.py:43` (cosine_better_than_threshold=0.0)
+- **Hybrid fallback**: `src/clarification_agent.py:113-116` (direct entity search)
+- **Multi-format indexing**: `src/indexing.py:13-46` (DOCX, DOC, TXT support)
+- **Config UI**: `src/config_ui.py:11` (indexing script path configuration)

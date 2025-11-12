@@ -1,5 +1,6 @@
 """Main application file with Gradio chat interface."""
 import os
+import sys
 import warnings
 import logging
 import glob
@@ -7,14 +8,17 @@ import gradio as gr
 from dotenv import load_dotenv
 from agents import trace
 
+# Add parent directory to path to import from src
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 # Suppress warnings before importing autogen-related modules
 warnings.filterwarnings('ignore', message='.*flaml.automl.*')
 logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
 
-from openai_agent import OpenAIAgentRunner
+from .openai_agent import OpenAIAgentRunner
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from parent directory
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # Global agent runner instance
 agent_runner = None
@@ -26,8 +30,12 @@ def initialize_agent():
     global agent_runner, current_docx_path
 
     try:
+        # Get project root directory
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        docs_dir = os.path.join(project_root, "docs")
+
         # Look for DOCX files in the docs directory
-        docx_files = glob.glob("docs/*.docx")
+        docx_files = glob.glob(os.path.join(docs_dir, "*.docx"))
 
         if not docx_files:
             return None, "❌ No DOCX file found in the 'docs' folder. Please add a .docx file to the docs directory."
@@ -89,28 +97,7 @@ def create_interface():
     """Create the Gradio interface."""
 
     with gr.Blocks(title="Document Q&A Bot", theme=gr.themes.Soft()) as demo:
-        # gr.Markdown(
-        #     """
-        #     # 📄 Document Q&A Bot
-        #     Ask questions about your document!
-
-        #     **Features:**
-        #     - Auto-loads document from `docs/` folder
-        #     - Uses OpenAI Agents SDK for query processing
-        #     - Intelligent question answering based on document content
-        #     """
-        # )
-
-        # Document status display
-        status_box = gr.Textbox(
-            label="📋 Document Status",
-            lines=5,
-            interactive=False,
-            value="Loading document..."
-        )
-
-        # Chat interface
-        gr.Markdown("### 💬 Chat")
+        # Clean chat interface
         chatbot = gr.Chatbot(
             label="Conversation",
             height=500,
@@ -163,21 +150,6 @@ def create_interface():
             outputs=[chatbot]
         )
 
-        # gr.Markdown(
-        #     """
-        #     ---
-        #     **Note:**
-        #     - Place your DOCX file in the `docs/` folder
-        #     - Make sure `OPENAI_API_KEY` is set in the `.env` file
-        #     """
-        # )
-
-        # Load document on startup
-        demo.load(
-            fn=lambda: initialize_agent()[1],
-            outputs=status_box
-        )
-
     return demo
 
 
@@ -189,6 +161,17 @@ def main():
         print("WARNING: OPENAI_API_KEY not found in environment variables.")
         print("Please create a .env file with your OpenAI API key.")
         print("Example: OPENAI_API_KEY=sk-...")
+
+    # Initialize agent on startup
+    print("\n" + "="*60)
+    print("Initializing FAQ Bot...")
+    print("="*60)
+    agent, status = initialize_agent()
+    if agent:
+        print("✅ Agent initialized successfully")
+    else:
+        print(f"⚠️  {status}")
+    print("="*60 + "\n")
 
     # Create and launch the interface
     demo = create_interface()

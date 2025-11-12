@@ -50,12 +50,21 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
+
+# Database files
+conversation_history.db
+conversation_history.db-shm
+conversation_history.db-wal
+*.db
+*.db-shm
+*.db-wal
 
 # Sample/test files (optional)
 sample_faq.docx
 test.py
 
-
 # User-specific files
 docs/
 kb/
+data/

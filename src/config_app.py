@@ -4,7 +4,8 @@ This is a separate application that runs on port 8081 and should be accessible
 only to administrators. It provides document upload, management, and indexing capabilities.
 
 Usage:
-    python config_app.py
+    python src/config_app.py
+    # Or from project root: python -m src.config_app
 
 The app will start at: http://localhost:8081
 
@@ -12,11 +13,16 @@ For production deployment, use authentication middleware or firewall rules
 to restrict access to authorized users only.
 """
 import os
+import sys
 from dotenv import load_dotenv
-from config_ui import create_config_interface
 
-# Load environment variables
-load_dotenv()
+# Add current directory to path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from .config_ui import create_config_interface
+
+# Load environment variables from parent directory
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 
 def main():
