@@ -1,15 +1,16 @@
 # FAQ Bot Landing Page
 
-A modern, conversion-focused landing page for the FAQ Bot open-source document Q&A system.
+A practical, educational landing page for the FAQ Bot open-source document Q&A system. Focused on helping users understand and try the project, not on sales.
 
 ## 🎯 Overview
 
 This landing page showcases the FAQ Bot project with:
-- **11 Sections**: Hero, Problem, How It Works, Features, Demo, Pricing, Tech Stack, FAQ, CTA, Footer
-- **Modern Design**: Clean, professional UI with gradient accents and smooth animations
+- **9 Practical Sections**: Hero, Getting Started, How It Works, Features, Demo Examples, Tech Stack, Cost Calculator, FAQ, Footer
+- **Educational Approach**: Focuses on teaching users how to use the project, not selling
+- **Technical Content**: Real installation commands, architecture diagrams, code examples
 - **Fully Responsive**: Mobile-first design that works on all devices
-- **Interactive Elements**: Cost calculator, FAQ accordion, copy-to-clipboard, scroll animations
-- **Performance Optimized**: Fast loading, smooth animations, accessibility focused
+- **Interactive Elements**: Cost calculator with breakdown, FAQ accordion, copy-to-clipboard, scroll animations
+- **Open-Source Friendly**: Honest about requirements, shows real limitations, emphasizes community
 
 ## 📁 Files
 
