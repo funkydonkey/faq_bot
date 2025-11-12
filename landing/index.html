@@ -46,6 +46,7 @@
 
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                    <li><a href="#indexing" class="nav-link">Indexing</a></li>
                     <li><a href="#features" class="nav-link">Features</a></li>
                     <li><a href="#demo" class="nav-link">Examples</a></li>
                     <li><a href="#faq" class="nav-link">FAQ</a></li>
@@ -144,6 +145,81 @@
                         <p>GPT-4o synthesizes the information and gives you a clear answer. All conversations are stored in SQLite, so the bot remembers context across sessions.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Indexing Explanation Section -->
+    <section class="indexing-section" id="indexing">
+        <div class="container">
+            <h2 class="section-title">Understanding Document Indexing</h2>
+            <p class="section-subtitle">Before the bot can answer questions, your documents need to be indexed. Here's what happens behind the scenes:</p>
+
+            <div class="indexing-process">
+                <div class="indexing-step scroll-fade">
+                    <div class="indexing-number">1</div>
+                    <div class="indexing-content">
+                        <h3>Text Extraction</h3>
+                        <p>Your DOCX, DOC, or TXT files are read and all text is extracted. Tables, paragraphs, and formatting are converted into plain text.</p>
+                        <div class="indexing-example">
+                            <span class="example-label">Input:</span> <code>HR_Policy.docx</code> → <span class="example-label">Output:</span> "Vacation policy: Employees receive 15 days..."
+                        </div>
+                    </div>
+                </div>
+
+                <div class="indexing-step scroll-fade delay-1">
+                    <div class="indexing-number">2</div>
+                    <div class="indexing-content">
+                        <h3>Text Chunking</h3>
+                        <p>Long documents are split into smaller chunks (500 characters each) with 200-character overlap. This ensures context isn't lost between chunks.</p>
+                        <div class="indexing-visual">
+                            <div class="chunk">Chunk 1</div>
+                            <div class="overlap">Overlap 200 chars</div>
+                            <div class="chunk">Chunk 2</div>
+                            <div class="overlap">Overlap 200 chars</div>
+                            <div class="chunk">Chunk 3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="indexing-step scroll-fade delay-2">
+                    <div class="indexing-number">3</div>
+                    <div class="indexing-content">
+                        <h3>Vector Embeddings</h3>
+                        <p>Each chunk is converted into a vector (a list of 1,536 numbers) using OpenAI's embedding model. Similar chunks get similar vectors.</p>
+                        <div class="indexing-example">
+                            <span class="example-label">Text:</span> "vacation policy" → <span class="example-label">Vector:</span> <code>[0.23, -0.45, 0.12, ...]</code>
+                        </div>
+                        <div class="embedding-note">
+                            <strong>Why vectors?</strong> Computers can't understand text, but they can compare numbers. Vectors let the bot find similar concepts even if the words are different.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="indexing-step scroll-fade delay-3">
+                    <div class="indexing-number">4</div>
+                    <div class="indexing-content">
+                        <h3>Knowledge Graph</h3>
+                        <p>GPT-4o-mini analyzes chunks and extracts key entities (people, places, concepts) and their relationships. This creates a knowledge graph stored in <code>kb/</code> directory.</p>
+                        <div class="graph-example">
+                            <div class="entity">Vacation Policy</div>
+                            <div class="relation">→ grants →</div>
+                            <div class="entity">15 Days</div>
+                            <div class="relation">→ applies to →</div>
+                            <div class="entity">Full-time Employees</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="indexing-summary scroll-fade delay-4">
+                <h3>💡 What You Need to Know</h3>
+                <ul>
+                    <li><strong>Indexing is a one-time cost:</strong> ~$0.11 per document (2MB file)</li>
+                    <li><strong>Uses gpt-4o-mini:</strong> 94% cheaper than gpt-4o for indexing</li>
+                    <li><strong>Storage:</strong> All indexed data stored locally in <code>kb/</code> folder</li>
+                    <li><strong>Fast queries:</strong> Once indexed, answering questions costs only ~$0.02</li>
+                </ul>
             </div>
         </div>
     </section>
