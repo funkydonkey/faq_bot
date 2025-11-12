@@ -135,19 +135,25 @@ const documentsSlider = document.getElementById('documents');
 const questionsSlider = document.getElementById('questions');
 const docCountSpan = document.getElementById('docCount');
 const questionCountSpan = document.getElementById('questionCount');
+const indexingCostSpan = document.getElementById('indexingCost');
+const queryCostSpan = document.getElementById('queryCost');
 const costResultSpan = document.getElementById('costResult');
 
 function calculateCost() {
     const documents = parseInt(documentsSlider.value);
     const questions = parseInt(questionsSlider.value);
 
-    // Formula: (documents × $0.11) + (questions × $0.02)
-    const cost = (documents * 0.11) + (questions * 0.02);
+    // Formula: (documents × $0.11) for indexing + (questions × $0.02) for queries
+    const indexingCost = documents * 0.11;
+    const queryCost = questions * 0.02;
+    const totalCost = indexingCost + queryCost;
 
     // Update display
     docCountSpan.textContent = documents;
     questionCountSpan.textContent = questions;
-    costResultSpan.textContent = '$' + cost.toFixed(2);
+    indexingCostSpan.textContent = '$' + indexingCost.toFixed(2);
+    queryCostSpan.textContent = '$' + queryCost.toFixed(2);
+    costResultSpan.textContent = '$' + totalCost.toFixed(2);
 }
 
 // Initialize calculator
@@ -350,17 +356,17 @@ featureCards.forEach(card => {
 });
 
 // ==========================================
-// Tech Logo Hover Animation
+// Tech Item Hover Animation
 // ==========================================
 
-const techLogos = document.querySelectorAll('.tech-logo');
+const techItems = document.querySelectorAll('.tech-item');
 
-techLogos.forEach(logo => {
-    logo.addEventListener('mouseenter', function() {
+techItems.forEach(item => {
+    item.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-4px) scale(1.1)';
     });
 
-    logo.addEventListener('mouseleave', function() {
+    item.addEventListener('mouseleave', function() {
         this.style.transform = 'translateY(0) scale(1)';
     });
 });
