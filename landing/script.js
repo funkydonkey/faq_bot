@@ -356,17 +356,17 @@ featureCards.forEach(card => {
 });
 
 // ==========================================
-// Tech Item Hover Animation
+// Tech Logo Hover Animation
 // ==========================================
 
-const techItems = document.querySelectorAll('.tech-item');
+const techLogos = document.querySelectorAll('.tech-logo');
 
-techItems.forEach(item => {
-    item.addEventListener('mouseenter', function() {
+techLogos.forEach(logo => {
+    logo.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-4px) scale(1.1)';
     });
 
-    item.addEventListener('mouseleave', function() {
+    logo.addEventListener('mouseleave', function() {
         this.style.transform = 'translateY(0) scale(1)';
     });
 });
