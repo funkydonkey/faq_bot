@@ -63,6 +63,10 @@ conversation_history.db-wal
 # Sample/test files (optional)
 sample_faq.docx
 test.py
+streamlit_test.py
+
+# Process management
+pids.txt
 
 # User-specific files
 docs/

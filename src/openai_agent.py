@@ -70,32 +70,25 @@ Always be concise and accurate."""
 class OpenAIAgentRunner:
     """Runner that orchestrates the OpenAI Agents SDK agent with tracing."""
 
-    def __init__(self, docx_path: str, api_key: Optional[str] = None):
+    def __init__(self, docs_dir: str, api_key: Optional[str] = None):
         """
         Initialize the agent runner.
 
         Args:
-            docx_path: Path to the DOCX file
+            docs_dir: Path to directory containing DOCX files
             api_key: OpenAI API key (optional, reads from env if not provided)
         """
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        self.docx_path = docx_path
+        self.docs_dir = docs_dir
 
         # Set OpenAI API key for agents SDK
         if self.api_key:
             from agents import set_default_openai_key
             set_default_openai_key(self.api_key)
 
-        # Load document content
-        self.doc_reader = DocxReader(docx_path)
-        if self.doc_reader.load():
-            self.doc_content = self.doc_reader.get_content()
-        else:
-            self.doc_content = ""
-
-        # Create the AutoGen document search agent
+        # Create the AutoGen document search agent with all documents
         self.search_agent = DocumentSearchAgent(
-            doc_content=self.doc_content,
+            docs_dir=docs_dir,
             api_key=self.api_key
         )
 
@@ -197,11 +190,12 @@ class OpenAIAgentRunner:
         loop.run_until_complete(self.session.clear_session())
 
     def get_document_info(self) -> str:
-        """Get information about the loaded document."""
-        if not self.doc_content:
-            return "No document loaded."
+        """Get information about the loaded documents."""
+        all_docs_content = self.search_agent.all_documents_content
+        if not all_docs_content or all_docs_content.startswith("No"):
+            return "No documents loaded."
 
         # Return first 500 characters as preview
-        preview = self.doc_content[:500]
-        total_chars = len(self.doc_content)
+        preview = all_docs_content[:500]
+        total_chars = len(all_docs_content)
         return f"{preview}...\n\n[Total document length: {total_chars} characters]"

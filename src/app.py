@@ -26,7 +26,7 @@ current_docx_path = None
 
 
 def initialize_agent():
-    """Initialize the agent with the DOCX file from docs folder."""
+    """Initialize the agent with all DOCX files from docs folder."""
     global agent_runner, current_docx_path
 
     try:
@@ -38,23 +38,20 @@ def initialize_agent():
         docx_files = glob.glob(os.path.join(docs_dir, "*.docx"))
 
         if not docx_files:
-            return None, "❌ No DOCX file found in the 'docs' folder. Please add a .docx file to the docs directory."
+            return None, "❌ No DOCX files found in the 'docs' folder. Please add .docx files to the docs directory."
 
-        # Use the first DOCX file found
-        file_path = docx_files[0]
-
-        # Initialize the agent runner
-        agent_runner = OpenAIAgentRunner(docx_path=file_path)
-        current_docx_path = file_path
+        # Initialize the agent runner with docs directory
+        agent_runner = OpenAIAgentRunner(docs_dir=docs_dir)
+        current_docx_path = docs_dir
 
         # Get document info
         doc_info = agent_runner.get_document_info()
 
-        doc_name = os.path.basename(file_path)
-        return agent_runner, f"✅ **Document loaded:** {doc_name}\n\n**Preview:**\n{doc_info}"
+        doc_count = len(docx_files)
+        return agent_runner, f"✅ **Loaded {doc_count} document(s) from docs folder**\n\n**Preview:**\n{doc_info}"
 
     except Exception as e:
-        return None, f"❌ Error loading document: {str(e)}"
+        return None, f"❌ Error loading documents: {str(e)}"
 
 
 def chat_callback(message, history):

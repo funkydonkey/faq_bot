@@ -1,6 +1,6 @@
 # FAQ Bot - Document Q&A System
 
-A Gradio-based chat application that answers questions about documents using a three-layer agent architecture: OpenAI orchestrator, clarification agent with hybrid entity search, and AutoGen document search with MiniRAG knowledge graph retrieval.
+A chat application with dual interfaces (Gradio & Streamlit) that answers questions about documents using a three-layer agent architecture: OpenAI orchestrator, clarification agent with hybrid entity search, and AutoGen document search with MiniRAG knowledge graph retrieval.
 
 ## 📚 Documentation
 
@@ -8,10 +8,12 @@ A Gradio-based chat application that answers questions about documents using a t
 - **[Installation Guide](INSTALLATION_GUIDE.md)** ⭐ Complete step-by-step setup guide for beginners
 - **[Quick Start](QUICK_START.md)** - Quick reference for common tasks
 - **[Troubleshooting](TROUBLESHOOTING.md)** - Solutions to common problems
+- **[UI Comparison](UI_COMPARISON.md)** 🆕 Gradio vs Streamlit interface guide
 
 ### Understanding the System
 - **[Architecture](ARCHITECTURE.md)** - Visual guide to system design and data flow
 - **[Project Structure](PROJECT_STRUCTURE.md)** - Clean directory organization
+- **[Streamlit Guide](STREAMLIT_GUIDE.md)** 🆕 Complete guide to Streamlit interface
 - **[Restructure Summary](RESTRUCTURE_SUMMARY.md)** - Details of recent project reorganization
 
 ## Features
@@ -67,20 +69,37 @@ python -m src.indexing
 
 ## Usage
 
-The FAQ Bot consists of **two separate applications**:
+The FAQ Bot offers **three separate applications**:
 
-### 1. Chat Application (End Users) - Port 8080
+### 1. Chat Application - Gradio (End Users) - Port 8080
 
 ```bash
 source venv/bin/activate
 python run_app.py
 ```
 
-The chat interface will start at **http://localhost:8080**
+The Gradio chat interface will start at **http://localhost:8080**
 
 This is the main user-facing interface for asking questions about documents.
 
-### 2. Config Application (Administrators Only) - Port 8081
+### 2. Chat Application - Streamlit (End Users) - Port 8082
+
+```bash
+source venv/bin/activate
+python run_streamlit.py  # ← Always use this script
+```
+
+The Streamlit chat interface will start at **http://localhost:8082**
+
+Alternative user interface with:
+- Modern, responsive design
+- Document selector in sidebar
+- Live document preview
+- Chat statistics
+
+**⚠️ Important:** Always use `python run_streamlit.py` to avoid import errors. See [TROUBLESHOOTING_STREAMLIT.md](TROUBLESHOOTING_STREAMLIT.md) if you encounter issues.
+
+### 3. Config Application (Administrators Only) - Port 8081
 
 ```bash
 source venv/bin/activate
@@ -130,11 +149,13 @@ python tests/test.py
 
 ```
 faq_bot/
-├── run_app.py                # Entry point for chat application
+├── run_app.py                # Entry point for Gradio chat application
+├── run_streamlit.py          # Entry point for Streamlit chat application
 ├── run_config.py             # Entry point for config application
 ├── src/                      # Source code
 │   ├── __init__.py           # Package initialization
-│   ├── app.py                # Main chat application (port 8080)
+│   ├── app.py                # Gradio chat application (port 8080)
+│   ├── streamlit_app.py      # Streamlit chat application (port 8082)
 │   ├── config_app.py         # Admin config application (port 8081)
 │   ├── config_ui.py          # Config UI components
 │   ├── openai_agent.py       # OpenAI orchestrator agent
@@ -166,14 +187,16 @@ faq_bot/
   - Indexing: gpt-4o-mini (94% cost savings)
   - Embeddings: text-embedding-3-small (most cost-efficient)
 - **Ports**:
-  - Chat application: 8080 (user-facing)
+  - Gradio chat application: 8080 (user-facing)
   - Config application: 8081 (admin-only)
+  - Streamlit chat application: 8082 (user-facing)
 - **Document folder**: `docs/` (supports DOCX, DOC, TXT)
 - **Vector threshold**: 0.0 for maximum recall with fallback strategy
 
 ## Technologies Used
 
-- **Gradio**: Web UI framework
+- **Gradio**: Web UI framework (original interface)
+- **Streamlit**: Alternative modern web UI framework
 - **OpenAI GPT-4o**: Language model for runtime queries
 - **OpenAI gpt-4o-mini**: Cost-efficient model for indexing
 - **AutoGen**: Multi-agent conversation framework

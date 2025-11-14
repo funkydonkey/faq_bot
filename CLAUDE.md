@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-FAQ Bot is a document Q&A system with a Gradio chat interface. It uses a **three-layer agent architecture**: an OpenAI Agents SDK orchestrator, a clarification agent for entity extraction, and an AutoGen search agent for document retrieval. The system supports multiple document formats (DOCX, DOC, TXT) with cost-optimized indexing.
+FAQ Bot is a document Q&A system with **dual chat interfaces** (Gradio & Streamlit). It uses a **three-layer agent architecture**: an OpenAI Agents SDK orchestrator, a clarification agent for entity extraction, and an AutoGen search agent for document retrieval. The system supports multiple document formats (DOCX, DOC, TXT) with cost-optimized indexing.
 
 ## Requirements
 
@@ -22,9 +22,13 @@ pip install -r requirements.txt
 # Configure environment
 echo "OPENAI_API_KEY=your-key-here" > .env
 
-# Run the chat application (end users)
+# Run the Gradio chat application (end users)
 python run_app.py
 # Access at http://localhost:8080
+
+# Run the Streamlit chat application (end users)
+python run_streamlit.py
+# Access at http://localhost:8082
 
 # Run the config application (admins)
 python run_config.py
@@ -47,7 +51,7 @@ python scripts/graph.py
 
 ### Three-Layer Agent Design
 
-**Flow**: User → Gradio UI → OpenAI Orchestrator → [Clarification Agent | AutoGen Search Agent] → Document
+**Flow**: User → [Gradio/Streamlit UI] → OpenAI Orchestrator → [Clarification Agent | AutoGen Search Agent] → Document
 
 1. **OpenAI Orchestrator** (`openai_agent.py`):
    - Entry point for all queries (uses GPT-4o)
@@ -75,11 +79,13 @@ python scripts/graph.py
 ### Key Components
 
 **Entry Points:**
-- **run_app.py**: Entry point for chat application (port 8080)
+- **run_app.py**: Entry point for Gradio chat application (port 8080)
+- **run_streamlit.py**: Entry point for Streamlit chat application (port 8082)
 - **run_config.py**: Entry point for config application (port 8081)
 
 **Core Application (src/):**
 - **src/app.py**: Gradio interface with chat UI, auto-loads first DOCX from `docs/` on startup
+- **src/streamlit_app.py**: Streamlit interface with document selector, preview, and chat UI
 - **src/config_app.py**: Standalone admin configuration application
 - **src/config_ui.py**: Configuration UI for document management and indexing
 - **src/openai_agent.py**: `OpenAIAgentRunner` class - manages orchestrator, SQLite session, and conversation history
@@ -137,9 +143,24 @@ logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
 
 ### Document Loading
 - Documents load from `docs/` directory automatically (DOCX, DOC, TXT supported)
-- First DOCX file found is used (`app.py:30-36`)
+- **Gradio**: First DOCX file found is used (`app.py:30-36`)
+- **Streamlit**: Document selector allows switching between files (`streamlit_app.py:104-125`)
 - Single document loading - no duplicate `get_document_summary()` methods
 - Multi-format support: DOCX/DOC via python-docx, TXT with UTF-8/Latin-1 fallback
+
+### UI Differences: Gradio vs Streamlit
+- **Gradio** (`src/app.py`):
+  - Fixed document (requires restart to change)
+  - Simple, focused chat interface
+  - Messages use dict format with "role" and "content"
+  - Global `agent_runner` variable
+
+- **Streamlit** (`src/streamlit_app.py`):
+  - Dynamic document selector in sidebar
+  - Document preview and statistics
+  - Session state management (`st.session_state`)
+  - Live document switching without restart
+  - Modern, responsive design
 
 ### AutoGen v0.6 API
 - **New API**: Uses `AssistantAgent` with `on_messages()` method instead of legacy `generate_reply()`
@@ -158,19 +179,22 @@ logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
 
 ## Port Configuration
 
-- **Chat Application**: Port 8080 (see `src/app.py:205`)
+- **Gradio Chat Application**: Port 8080 (see `src/app.py:205`)
+- **Streamlit Chat Application**: Port 8082 (see `run_streamlit.py`)
 - **Config Application**: Port 8081 (see `src/config_app.py:57`)
-- Both servers bind to `0.0.0.0` for external access
+- All servers bind to `0.0.0.0` for external access
 
 ## Documentation
 
 - **INDEXING_GUIDE.md**: Complete guide to multi-format document indexing
 - **MODEL_OPTIMIZATION.md**: Cost analysis and model selection recommendations
+- **STREAMLIT_GUIDE.md**: Comprehensive guide to the Streamlit interface
 
 ## Key Dependencies
 
 **Core Frameworks:**
-- `gradio>=4.0.0` - Web UI framework
+- `gradio>=4.0.0` - Web UI framework (original interface)
+- `streamlit>=1.28.0` - Alternative web UI framework
 - `openai>=1.0.0` - OpenAI API client
 - `openai-agents==0.4.2` - OpenAI Agents SDK for orchestration
 - `autogen-agentchat==0.6.1`, `autogen-core==0.6.1`, `autogen-ext==0.6.1` - AutoGen v0.6 multi-agent framework

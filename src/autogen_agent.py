@@ -1,8 +1,10 @@
 """Autogen assistant agent for document search."""
 import os
+import glob
 import warnings
 import logging
-from typing import Optional
+from typing import Optional, List
+from pathlib import Path
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.messages import TextMessage
 from autogen_core import CancellationToken
@@ -18,16 +20,19 @@ logging.getLogger('autogen.oai.client').setLevel(logging.ERROR)
 class DocumentSearchAgent:
     """Autogen-based assistant agent for searching documents."""
 
-    def __init__(self, doc_content: str, api_key: Optional[str] = None):
+    def __init__(self, docs_dir: str, api_key: Optional[str] = None):
         """
         Initialize the document search agent.
 
         Args:
-            doc_content: The full document content to search in
+            docs_dir: Path to directory containing DOCX files
             api_key: OpenAI API key (optional, reads from env if not provided)
         """
-        self.doc_content = doc_content
+        self.docs_dir = docs_dir
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+
+        # Load all documents from directory
+        self.all_documents_content = self._load_all_documents()
 
         # Create OpenAI model client (v0.6 API)
         self.model_client = OpenAIChatCompletionClient(
@@ -36,22 +41,47 @@ class DocumentSearchAgent:
             temperature=0.7,
         )
 
-        # Create assistant agent with document content (v0.6 API)
+        # Create assistant agent with all documents content (v0.6 API)
         self.assistant = AssistantAgent(
             name="document_search_assistant",
             model_client=self.model_client,
-            system_message=f"""You are a document search specialist. Your job is to search through document content and find relevant information to answer questions.
+            system_message=f"""You are a document search specialist. Your job is to search through multiple documents and find relevant information to answer questions.
 
-Document Content:
-{self.doc_content}
+Documents Content:
+{self.all_documents_content}
 
 Your task:
 1. Carefully analyze the question
-2. Search for relevant information in the document above
-3. Return ONLY information found in the document
-4. If information is not in the document, clearly state: "This information is not found in the document."
-5. Be concise and cite specific parts when answering""",
+2. Search for relevant information across ALL documents above
+3. When citing information, mention which document it came from
+4. Return ONLY information found in the documents
+5. If information is not in any document, clearly state: "This information is not found in any of the documents."
+6. Be concise and cite specific parts when answering""",
         )
+
+    def _load_all_documents(self) -> str:
+        """Load all DOCX files from docs directory."""
+        from .docx_reader import DocxReader
+
+        docs_path = Path(self.docs_dir)
+        if not docs_path.exists():
+            return "No documents directory found."
+
+        docx_files = list(docs_path.glob("*.docx"))
+        if not docx_files:
+            return "No DOCX files found."
+
+        all_content = []
+        for docx_file in docx_files:
+            doc_reader = DocxReader(str(docx_file))
+            if doc_reader.load():
+                content = doc_reader.get_content()
+                all_content.append(f"=== DOCUMENT: {docx_file.name} ===\n{content}\n")
+
+        if not all_content:
+            return "Failed to load any documents."
+
+        return "\n".join(all_content)
 
     async def search(self, question: str) -> str:
         """
