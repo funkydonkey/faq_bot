@@ -1,6 +1,6 @@
 # FAQ Bot - Document Q&A System
 
-A chat application with dual interfaces (Gradio & Streamlit) that answers questions about documents using a three-layer agent architecture: OpenAI orchestrator, clarification agent with hybrid entity search, and AutoGen document search with MiniRAG knowledge graph retrieval.
+A multi-page chat application with dual interfaces (Gradio & Streamlit) that answers questions about documents using a three-layer agent architecture: OpenAI orchestrator, clarification agent with hybrid entity search, and AutoGen document search with MiniRAG knowledge graph retrieval. Includes interactive knowledge graph visualization.
 
 ## 📚 Documentation
 
@@ -22,7 +22,9 @@ A chat application with dual interfaces (Gradio & Streamlit) that answers questi
 - 🤖 **Three-layer agents**: OpenAI orchestrator → Clarification/Search agents → Documents
 - 🔍 **Hybrid search**: LLM entity extraction with direct vector fallback
 - 💰 **Cost-optimized**: gpt-4o-mini for indexing (15x cheaper), gpt-4o for runtime
-- 💬 Clean Gradio chat interface
+- 💬 **Dual chat interfaces**: Clean Gradio and modern Streamlit UIs
+- 🕸️ **Knowledge Graph visualization**: Interactive graph with streamlit-agraph showing entities and relationships
+- 📱 **Multi-page Streamlit app**: Home page, Chat page, and Knowledge Graph page
 - ⚙️ **Separate admin interface**: Document management and indexing GUI on dedicated port
 - 🔒 **Security-focused**: Admin interface isolated for restricted access
 
@@ -82,12 +84,17 @@ The Gradio chat interface will start at **http://localhost:8080**
 
 This is the main user-facing interface for asking questions about documents.
 
-### 2. Chat Application - Streamlit (End Users) - Port 8082
+### 2. Multi-Page Streamlit App (End Users) - Port 8082
 
 ```bash
 source venv/bin/activate
 python run_streamlit.py  # ← Always use this script
 ```
+
+**Pages available:**
+- **Home**: Landing page with navigation and feature overview
+- **💬 Chat**: Interactive chat interface for asking questions
+- **🕸️ Knowledge Graph**: Visual exploration of document entities and relationships
 
 The Streamlit chat interface will start at **http://localhost:8082**
 
